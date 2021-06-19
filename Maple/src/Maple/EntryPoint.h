@@ -8,8 +8,7 @@ int main(int argc, char** argv) {
 	
 	Maple::Log::Init();
 	MP_CORE_WARN("Initialized Log!");
-	int a = 5;
-	MP_INFO("Hello! Var={0}", a);
+	MP_INFO("Hello!");
 
 	auto app = Maple::CreateApplication();
 	app->Run();

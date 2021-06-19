@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core.h"
+#include "Events/event.h"
 
 namespace Maple {
 	class MAPLE_API Application

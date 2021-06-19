@@ -17,6 +17,9 @@ project "Maple"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 	
+	pchheader "mppch.h"
+	pchsource "Maple/src/mppch.cpp"
+	
 	files {
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp"
