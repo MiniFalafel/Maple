@@ -8,7 +8,14 @@ workspace "Maple"
 	}
 	
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-	
+
+-- Other directories that we want to include in our projects
+includeDirs = {}
+includeDirs["GLFW"] = "Maple/vendor/GLFW/include"
+
+-- Include extra premake files that we want to execute
+include "Maple/vendor/GLFW"
+
 project "Maple"
 	location "Maple"
 	kind "SharedLib"
@@ -27,7 +34,13 @@ project "Maple"
 	
 	includedirs {
 		"%{prj.name}/vendor/spdlog/include",
-		"%{prj.name}/src"
+		"%{prj.name}/src",
+		"%{includeDirs.GLFW}"
+	}
+	
+	links {
+		"GLFW",
+		"opengl32.lib"
 	}
 	
 	filter "system:windows"
