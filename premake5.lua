@@ -12,6 +12,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Other directories that we want to include in our projects
 includeDirs = {}
 includeDirs["GLFW"] = "Maple/vendor/GLFW/include"
+includeDirs["spdlog"] = "Maple/vendor/spdlog/include"
 
 -- Include extra premake files that we want to execute
 include "Maple/vendor/GLFW"
@@ -33,8 +34,8 @@ project "Maple"
 	}
 	
 	includedirs {
-		"%{prj.name}/vendor/spdlog/include",
 		"%{prj.name}/src",
+		"%{includeDirs.spdlog}",
 		"%{includeDirs.GLFW}"
 	}
 	
@@ -58,7 +59,10 @@ project "Maple"
 		}
 		
 	filter "configurations:Debug"
-		defines "MP_DEBUG"
+		defines {
+			"MP_DEBUG",
+			"MP_ENABLE_ASSERTS"
+		}
 		symbols "On"
 	
 	filter "configurations:Release"
@@ -87,6 +91,10 @@ project "Sandbox"
 		"Maple/src"
 	}
 	
+	links {
+		"Maple"
+	}
+	
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On"
@@ -94,10 +102,6 @@ project "Sandbox"
 		
 		defines {
 			"MP_PLATFORM_WINDOWS",
-		}
-		
-		links {
-			"Maple"
 		}
 		
 	filter "configurations:Debug"

@@ -7,7 +7,15 @@
 		#define MAPLE_API __declspec(dllimport)
 	#endif
 #else
-	#error Maple Currently only supports Windows!
+	#error Maple currently only supports Windows!
+#endif
+
+#ifdef MP_ENABLE_ASSERTS
+	#define MP_ASSERT(x, ...) {if(!(x)) {MP_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+	#define MP_CORE_ASSERT(x, ...) {if(!(x)) {MP_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#else
+	#define MP_ASSERT(x, ...)
+	#define MP_CORE_ASSERT(x, ...)
 #endif
 
 #define BIT(x) (1 << x)
