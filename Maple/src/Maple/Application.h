@@ -3,6 +3,7 @@
 #include "Core.h"
 #include "Window.h"
 
+#include "Maple/LayerStack.h"
 #include "Maple/Events/Event.h"
 #include "Maple/Events/ApplicationEvent.h"
 
@@ -18,7 +19,8 @@ namespace Maple {
 
 		void OnEvent(Event& e);
 
-
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* overlay);
 
 	private:
 
@@ -26,6 +28,7 @@ namespace Maple {
 
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
+		LayerStack m_LayerStack;
 	};
 
 	// Will be client defined

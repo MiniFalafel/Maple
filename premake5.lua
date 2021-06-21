@@ -59,18 +59,18 @@ project "Maple"
 		}
 		
 	filter "configurations:Debug"
-		defines {
-			"MP_DEBUG",
-			"MP_ENABLE_ASSERTS"
-		}
+		defines "MP_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 	
 	filter "configurations:Release"
 		defines "MP_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 	
 	filter "configurations:Dist"
 		defines "MP_DIST"
+		buildoptions "/MD"
 		optimize "On"
 		
 project "Sandbox"
@@ -106,12 +106,15 @@ project "Sandbox"
 		
 	filter "configurations:Debug"
 		defines "MP_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 	
 	filter "configurations:Release"
 		defines "MP_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 	
 	filter "configurations:Dist"
 		defines "MP_DIST"
+		buildoptions "/MD"
 		optimize "On"
