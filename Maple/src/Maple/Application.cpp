@@ -3,15 +3,22 @@
 
 #include "Maple/Log.h"
 
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace Maple {
 
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
+	Application* Application::s_Instance = nullptr;
 
 	Application::Application() {
+		// Set s_Instance to this for external acces
+		MP_CORE_ASSERT(!s_Instance, "Application already exists!");
+		s_Instance = this;
+
 		m_Window = std::unique_ptr<Window>(Window::Create());
-		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+		m_Window->SetEventCallback(MP_BIND_EVENT_FN(Application::OnEvent));
+
+		unsigned int ID;
+		glGenVertexArrays(1, &ID);
 	}
 
 	Application::~Application() {
@@ -21,14 +28,16 @@ namespace Maple {
 	// Layer and Overlay Handling Wrappers
 	void Application::PushLayer(Layer* layer) {
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 	void Application::PushOverlay(Layer* overlay) {
 		m_LayerStack.PushOverlay(overlay);
+		overlay->OnAttach();
 	}
 
 	void Application::OnEvent(Event& e) {
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+		dispatcher.Dispatch<WindowCloseEvent>(MP_BIND_EVENT_FN(Application::OnWindowClose));
 
 		// Loop through each layer to see if it can handle the event
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); ) {

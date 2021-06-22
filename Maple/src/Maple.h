@@ -6,6 +6,8 @@
 #include "Maple/Layer.h"
 #include "Maple/Log.h"
 
+#include "Maple/ImGui/ImGuiLayer.h"
+
 // *********************Entry Point**********************
 #include "Maple/EntryPoint.h"
 // ******************************************************

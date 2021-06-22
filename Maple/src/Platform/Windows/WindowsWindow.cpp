@@ -5,6 +5,10 @@
 #include "Maple/Events/MouseEvent.h"
 #include "Maple/Events/ApplicationEvent.h"
 
+#include "glad/glad.h"
+
+#include "imgui.h"
+
 namespace Maple {
 	
 	static bool s_GLFWInitialized = false;
@@ -47,6 +51,9 @@ namespace Maple {
 
 		m_Window = glfwCreateWindow((int)m_Data.Width, (int)m_Data.Height, m_Data.Title.c_str(), NULL, NULL);
 		glfwMakeContextCurrent(m_Window);
+		// Load glad
+		int success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		MP_CORE_ASSERT(success, "glad failed to initialize!");
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		setVsync(true);
 
@@ -97,6 +104,14 @@ namespace Maple {
 					break;
 				}
 			}
+		});
+		// Char/Typing callback
+		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int c) {
+			// Get a reference to the Window's data
+			WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
+
+			KeyTypedEvent event(c);
+			data.EventCallback(event);
 		});
 		// Mouse Button callback
 		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods) {

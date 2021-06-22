@@ -18,4 +18,6 @@
 	#define MP_CORE_ASSERT(x, ...)
 #endif
 
+#define MP_BIND_EVENT_FN(func) std::bind(&func, this, std::placeholders::_1)
+
 #define BIT(x) (1 << x)

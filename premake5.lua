@@ -12,10 +12,14 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Other directories that we want to include in our projects
 includeDirs = {}
 includeDirs["GLFW"] = "Maple/vendor/GLFW/include"
+includeDirs["glad"] = "Maple/vendor/glad/include"
 includeDirs["spdlog"] = "Maple/vendor/spdlog/include"
+includeDirs["ImGui"] = "Maple/vendor/imgui"
 
 -- Include extra premake files that we want to execute
 include "Maple/vendor/GLFW"
+include "Maple/vendor/glad"
+include "Maple/vendor/imgui"
 
 project "Maple"
 	location "Maple"
@@ -36,11 +40,15 @@ project "Maple"
 	includedirs {
 		"%{prj.name}/src",
 		"%{includeDirs.spdlog}",
-		"%{includeDirs.GLFW}"
+		"%{includeDirs.GLFW}",
+		"%{includeDirs.glad}",
+		"%{includeDirs.ImGui}"
 	}
 	
 	links {
 		"GLFW",
+		"glad",
+		"ImGui",
 		"opengl32.lib"
 	}
 	
@@ -51,7 +59,8 @@ project "Maple"
 		
 		defines {
 			"MP_PLATFORM_WINDOWS",
-			"MP_BUILD_DLL"
+			"MP_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 		
 		postbuildcommands {
