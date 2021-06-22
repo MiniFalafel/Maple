@@ -126,14 +126,6 @@ namespace Maple {
 		// Get io reference and set value
 		ImGuiIO& io = ImGui::GetIO();
 		io.KeysDown[e.GetKeyCode()] = true;
-
-		return false;
-	}
-
-	bool ImGuiLayer::OnKeyReleasedEvent(KeyReleasedEvent& e) {
-		// Get io reference and set value
-		ImGuiIO& io = ImGui::GetIO();
-		io.KeysDown[e.GetKeyCode()] = false;
 		// Set modifiers
 		io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
 		io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
@@ -143,11 +135,19 @@ namespace Maple {
 		return false;
 	}
 
+	bool ImGuiLayer::OnKeyReleasedEvent(KeyReleasedEvent& e) {
+		// Get io reference and set value
+		ImGuiIO& io = ImGui::GetIO();
+		io.KeysDown[e.GetKeyCode()] = false;
+
+		return false;
+	}
+
 	bool ImGuiLayer::OnKeyTypedEvent(KeyTypedEvent& e) {
 		// Get io reference and set value
 		ImGuiIO& io = ImGui::GetIO();
 		int keyCode = e.GetKeyCode();
-		if (keyCode > 0 && keyCode < 0x10000)
+		if (keyCode > 0 && e.GetKeyCode() < 0x10000)
 			io.AddInputCharacter((unsigned short)e.GetKeyCode());
 
 		return false;

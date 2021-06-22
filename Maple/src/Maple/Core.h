@@ -10,6 +10,10 @@
 	#error Maple currently only supports Windows!
 #endif
 
+#ifdef MP_DEBUG
+	#define MP_ENABLE_ASSERTS
+#endif
+
 #ifdef MP_ENABLE_ASSERTS
 	#define MP_ASSERT(x, ...) {if(!(x)) {MP_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
 	#define MP_CORE_ASSERT(x, ...) {if(!(x)) {MP_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
