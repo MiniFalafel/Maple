@@ -6,11 +6,16 @@ public:
 	ExampleLayer() : Layer("Example") {}
 
 	void OnUpdate() {
-		MP_INFO("ExampleLayer:: Updated");
+
 	}
 
 	void OnEvent(Maple::Event& event) override {
-		MP_TRACE("{0}", event);
+		// Check for the space bar and say "Jump"
+		if (event.GetEventType() == Maple::EventType::KeyPressed) {
+			Maple::KeyPressedEvent& e = (Maple::KeyPressedEvent&)event;
+			if (e.GetKeyCode() == MP_KEY_SPACE)
+				MP_TRACE("Jump!");
+		}
 	}
 };
 

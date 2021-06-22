@@ -12,7 +12,7 @@ namespace Maple {
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 		auto keyState = glfwGetKey(window, keyCode);
 
-		return keyState == GLFW_PRESS || keyState == GLFW_RELEASE;
+		return keyState == GLFW_PRESS || keyState == GLFW_REPEAT;
 	}
 
 	bool WindowsInput::IsMouseButtonPressedImpl(int button) {
