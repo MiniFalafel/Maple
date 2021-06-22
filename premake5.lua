@@ -1,5 +1,6 @@
 workspace "Maple"
 	architecture "x64"
+	startproject "Sandbox"
 	
 	configurations {
 		"Debug",
@@ -25,6 +26,7 @@ project "Maple"
 	location "Maple"
 	kind "SharedLib"
 	language "C++"
+	staticruntime "Off"
 	
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -54,7 +56,6 @@ project "Maple"
 	
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 		
 		defines {
@@ -64,28 +65,29 @@ project "Maple"
 		}
 		
 		postbuildcommands {
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
 		}
 		
 	filter "configurations:Debug"
 		defines "MP_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 	
 	filter "configurations:Release"
 		defines "MP_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 	
 	filter "configurations:Dist"
 		defines "MP_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 		
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "Off"
 	
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -106,7 +108,6 @@ project "Sandbox"
 	
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 		
 		defines {
@@ -115,15 +116,15 @@ project "Sandbox"
 		
 	filter "configurations:Debug"
 		defines "MP_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 	
 	filter "configurations:Release"
 		defines "MP_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 	
 	filter "configurations:Dist"
 		defines "MP_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"

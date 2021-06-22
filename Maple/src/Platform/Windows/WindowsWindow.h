@@ -22,6 +22,8 @@ namespace Maple {
 		void setVsync(bool enabled) override;
 		bool isVsync() const override;
 
+		inline virtual void* GetNativeWindow() const { return m_Window; };
+
 		// Windows creation
 		static Window* Create(const WindowProperties& props = WindowProperties());
 
