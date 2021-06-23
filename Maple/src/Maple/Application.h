@@ -37,6 +37,8 @@ namespace Maple {
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 
+		unsigned int m_VAO, m_VBO, m_EBO;
+
 		// Single instance of self for the "Get" function
 		static Application* s_Instance;
 	};

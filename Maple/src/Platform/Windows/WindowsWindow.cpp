@@ -5,9 +5,7 @@
 #include "Maple/Events/MouseEvent.h"
 #include "Maple/Events/ApplicationEvent.h"
 
-#include "glad/glad.h"
-
-#include "imgui.h"
+#include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Maple {
 	
@@ -38,6 +36,7 @@ namespace Maple {
 		// Log beginning of window creation
 		MP_CORE_INFO("Creating Window {0}, ({1}, {2})", m_Data.Title, m_Data.Width, m_Data.Height);
 
+
 		// GLFW initialization
 		if (!s_GLFWInitialized) {
 			// Initialize GLFW and log if it fails to initialize
@@ -50,10 +49,10 @@ namespace Maple {
 		}
 
 		m_Window = glfwCreateWindow((int)m_Data.Width, (int)m_Data.Height, m_Data.Title.c_str(), NULL, NULL);
-		glfwMakeContextCurrent(m_Window);
-		// Load glad
-		int success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		MP_CORE_ASSERT(success, "glad failed to initialize!");
+
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
+
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		setVsync(true);
 
@@ -162,7 +161,7 @@ namespace Maple {
 	void WindowsWindow::OnUpdate() {
 		// Poll Events and swap buffers
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::setVsync(bool enabled) {

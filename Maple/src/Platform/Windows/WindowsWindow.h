@@ -1,8 +1,10 @@
 #pragma once
 
 #include "Maple/Window.h"
+#include "Maple/Renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>
+
 
 namespace Maple {
 	
@@ -32,6 +34,7 @@ namespace Maple {
 		virtual void Shutdown();
 
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData {
 
