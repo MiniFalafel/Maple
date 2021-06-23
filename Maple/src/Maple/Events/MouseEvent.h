@@ -7,7 +7,7 @@ namespace Maple {
 	class MAPLE_API MouseMovedEvent : public Event {
 		float m_MouseX, m_MouseY;
 	public:
-		MouseMovedEvent(int x, int y) : m_MouseX(x), m_MouseY(y) {}
+		MouseMovedEvent(float x, float y) : m_MouseX(x), m_MouseY(y) {}
 
 		inline float GetX() const { return m_MouseX; }
 		inline float GetY() const { return m_MouseY; }

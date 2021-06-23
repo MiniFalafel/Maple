@@ -1,11 +1,15 @@
 #pragma once
 
 #ifdef MP_PLATFORM_WINDOWS
+#if MP_DYNAMIC_BUILD
 	#ifdef MP_BUILD_DLL
 		#define MAPLE_API __declspec(dllexport)
 	#else
 		#define MAPLE_API __declspec(dllimport)
 	#endif
+#else
+	#define MAPLE_API
+#endif
 #else
 	#error Maple currently only supports Windows!
 #endif
