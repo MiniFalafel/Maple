@@ -1,5 +1,7 @@
 #include <Maple.h>
 
+#include "imgui/imgui.h"
+
 class ExampleLayer : public Maple::Layer {
 
 public:
@@ -7,6 +9,12 @@ public:
 
 	void OnUpdate() {
 
+	}
+
+	virtual void OnImGuiRender() override {
+		ImGui::Begin("Test");
+		ImGui::Text("Hello World!");
+		ImGui::End();
 	}
 
 	void OnEvent(Maple::Event& event) override {
@@ -17,6 +25,7 @@ public:
 				MP_TRACE("Jump!");
 		}
 	}
+
 };
 
 class Sandbox : public Maple::Application {
@@ -25,7 +34,6 @@ public:
 
 	Sandbox() {
 		PushLayer(new ExampleLayer());
-		PushOverlay(new Maple::ImGuiLayer());
 	}
 
 	~Sandbox() {

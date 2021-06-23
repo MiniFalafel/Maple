@@ -16,6 +16,7 @@ includeDirs["GLFW"] = "Maple/vendor/GLFW/include"
 includeDirs["glad"] = "Maple/vendor/glad/include"
 includeDirs["spdlog"] = "Maple/vendor/spdlog/include"
 includeDirs["ImGui"] = "Maple/vendor/imgui"
+includeDirs["glm"] = "Maple/vendor/glm"
 
 -- Include extra premake files that we want to execute
 include "Maple/vendor/GLFW"
@@ -36,7 +37,9 @@ project "Maple"
 	
 	files {
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 	
 	includedirs {
@@ -44,7 +47,8 @@ project "Maple"
 		"%{includeDirs.spdlog}",
 		"%{includeDirs.GLFW}",
 		"%{includeDirs.glad}",
-		"%{includeDirs.ImGui}"
+		"%{includeDirs.ImGui}",
+		"%{includeDirs.glm}"
 	}
 	
 	links {
@@ -98,8 +102,10 @@ project "Sandbox"
 	}
 	
 	includedirs {
-		"Maple/vendor/spdlog/include",
-		"Maple/src"
+		"Maple/src",
+		"Maple/vendor",
+		"%{includeDirs.spdlog}",
+		"%{includeDirs.glm}"
 	}
 	
 	links {
@@ -111,7 +117,7 @@ project "Sandbox"
 		systemversion "latest"
 		
 		defines {
-			"MP_PLATFORM_WINDOWS",
+			"MP_PLATFORM_WINDOWS"
 		}
 		
 	filter "configurations:Debug"

@@ -7,6 +7,8 @@
 #include "Maple/Events/Event.h"
 #include "Maple/Events/ApplicationEvent.h"
 
+#include "Maple/ImGui/ImGuiLayer.h"
+
 namespace Maple {
 
 	class MAPLE_API Application {
@@ -31,6 +33,7 @@ namespace Maple {
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 
