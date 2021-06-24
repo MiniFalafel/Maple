@@ -47,6 +47,30 @@ namespace Maple {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
 
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices, GL_STATIC_DRAW);
+
+		std::string vertexSrc = R"(
+#version 330 core
+layout(location = 0) in vec3 aPos;
+
+out vec3 Pos;
+
+void main() {
+	Pos = aPos;
+	gl_Position = vec4(Pos, 1.0);
+}
+		)";
+		std::string fragmentSrc = R"(
+#version 330 core
+layout(location = 0) out vec4 FragColor;
+
+in vec3 Pos;
+
+void main() {
+	FragColor = vec4(Pos * 0.5 + 0.5, 1.0);
+}
+)";
+
+		m_Shader.reset(new Shader(vertexSrc, fragmentSrc));
 	}
 
 	Application::~Application() {
@@ -80,8 +104,10 @@ namespace Maple {
 			glClearColor(0.09f, 0.09f, 0.1f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			m_Shader->Bind();
 			glBindVertexArray(m_VAO);
 			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			m_Shader->Unbind();
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();

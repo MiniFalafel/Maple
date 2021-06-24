@@ -7,6 +7,8 @@
 #include "Maple/Events/Event.h"
 #include "Maple/Events/ApplicationEvent.h"
 
+#include "Renderer/Shader.h"
+
 #include "Maple/ImGui/ImGuiLayer.h"
 
 namespace Maple {
@@ -38,6 +40,8 @@ namespace Maple {
 		LayerStack m_LayerStack;
 
 		unsigned int m_VAO, m_VBO, m_EBO;
+
+		std::unique_ptr<Shader> m_Shader;
 
 		// Single instance of self for the "Get" function
 		static Application* s_Instance;
