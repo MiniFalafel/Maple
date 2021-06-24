@@ -11,6 +11,22 @@ namespace Maple {
 
 	Application* Application::s_Instance = nullptr;
 
+	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
+		switch (type) {
+			case ShaderDataType::Float:    return GL_FLOAT;
+			case ShaderDataType::fVec2:    return GL_FLOAT;
+			case ShaderDataType::fVec3:    return GL_FLOAT;
+			case ShaderDataType::fVec4:    return GL_FLOAT;
+			case ShaderDataType::Mat3:     return GL_FLOAT;
+			case ShaderDataType::Mat4:     return GL_FLOAT;
+			case ShaderDataType::Int:      return GL_INT;
+			case ShaderDataType::iVec2:    return GL_INT;
+			case ShaderDataType::iVec3:    return GL_INT;
+			case ShaderDataType::iVec4:    return GL_INT;
+			case ShaderDataType::Bool:     return GL_BOOL;
+		}
+	}
+
 	Application::Application() {
 		// Set s_Instance to this for external acces
 		MP_CORE_ASSERT(!s_Instance, "Application already exists!");
@@ -25,15 +41,32 @@ namespace Maple {
 		glGenVertexArrays(1, &m_VAO);
 		glBindVertexArray(m_VAO);
 
-		float vertices[3 * 3] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.0f,  0.5f, 0.0f
+		float vertices[7 * 3] = {
+			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+			 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+			 0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f
 		};
 		m_VBO.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		BufferLayout layout = {
+			{ ShaderDataType::fVec3, "aPos" },
+			{ ShaderDataType::fVec4, "aColor" },
+		};
 
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+		m_VBO->SetLayout(layout);
+
+		uint32_t index = 0;
+		for(const auto & e : m_VBO->GetLayout()) {
+			glEnableVertexAttribArray(index);
+			glVertexAttribPointer(
+				index,
+				e.GetComponentCount(),
+				ShaderDataTypeToOpenGLBaseType(e.Type),
+				e.Normalized ? GL_TRUE : GL_FALSE,
+				layout.GetStride(),
+				(const void*)e.Offset
+			);
+			index++;
+		}
 
 		uint32_t indices[3] = { 0, 1, 2 };
 		m_EBO.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
@@ -41,11 +74,14 @@ namespace Maple {
 		std::string vertexSrc = R"(
 #version 330 core
 layout(location = 0) in vec3 aPos;
+layout(location = 1) in vec4 aColor;
 
 out vec3 Pos;
+out vec4 Color;
 
 void main() {
 	Pos = aPos;
+	Color = aColor;
 	gl_Position = vec4(Pos, 1.0);
 }
 		)";
@@ -54,9 +90,10 @@ void main() {
 layout(location = 0) out vec4 FragColor;
 
 in vec3 Pos;
+in vec4 Color;
 
 void main() {
-	FragColor = vec4(Pos * 0.5 + 0.5, 1.0);
+	FragColor = vec4(Color);
 }
 )";
 

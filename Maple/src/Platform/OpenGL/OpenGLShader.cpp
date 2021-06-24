@@ -31,8 +31,8 @@ namespace Maple {
 			// We don't need the shader anymore.
 			glDeleteShader(vertexShader);
 
-			MP_CORE_ASSERT(false, "Vertex shader failed to compile!");
 			MP_CORE_ERROR("    {0}", infoLog.data());
+			MP_CORE_ASSERT(false, "Vertex shader failed to compile!");
 			return;
 		}
 
@@ -62,8 +62,8 @@ namespace Maple {
 			// Either of them. Don't leak shaders.
 			glDeleteShader(vertexShader);
 
-			MP_CORE_ASSERT(false, "Fragment shader failed to compile!");
 			MP_CORE_ERROR("    {0}", infoLog.data());
+			MP_CORE_ASSERT(false, "Fragment shader failed to compile!");
 			return;
 		}
 
@@ -97,8 +97,8 @@ namespace Maple {
 			glDeleteShader(vertexShader);
 			glDeleteShader(fragmentShader);
 
-			MP_CORE_ASSERT(false, "Shader failed to link!");
 			MP_CORE_ERROR("    {0}", infoLog.data());
+			MP_CORE_ASSERT(false, "Shader failed to link!");
 			return;
 		}
 
