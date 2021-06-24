@@ -25,28 +25,18 @@ namespace Maple {
 		glGenVertexArrays(1, &m_VAO);
 		glBindVertexArray(m_VAO);
 
-		glGenBuffers(1, &m_VBO);
-		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-
 		float vertices[3 * 3] = {
 			-0.5f, -0.5f, 0.0f,
 			 0.5f, -0.5f, 0.0f,
 			 0.0f,  0.5f, 0.0f
 		};
-
-		unsigned int indices[3] = {
-			0, 1, 2
-		};
-
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
+		m_VBO.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
-		glGenBuffers(1, &m_EBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices, GL_STATIC_DRAW);
+		uint32_t indices[3] = { 0, 1, 2 };
+		m_EBO.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 
 		std::string vertexSrc = R"(
 #version 330 core
@@ -70,7 +60,7 @@ void main() {
 }
 )";
 
-		m_Shader.reset(new Shader(vertexSrc, fragmentSrc));
+		m_Shader.reset(Shader::Create(vertexSrc, fragmentSrc));
 	}
 
 	Application::~Application() {
@@ -106,7 +96,7 @@ void main() {
 
 			m_Shader->Bind();
 			glBindVertexArray(m_VAO);
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, m_EBO->GetCount(), GL_UNSIGNED_INT, nullptr);
 			m_Shader->Unbind();
 
 			for (Layer* layer : m_LayerStack)
