@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Maple/Core.h"
+#include "Maple/Core/Timestep.h"
 #include "Maple/Events/Event.h"
 
 namespace Maple {
@@ -13,7 +14,7 @@ namespace Maple {
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep ts) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 

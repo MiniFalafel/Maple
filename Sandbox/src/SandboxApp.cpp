@@ -106,22 +106,24 @@ void main() {
 		m_SquareShader.reset(Maple::Shader::Create(squareVertexSrc, squareFragmentSrc));
 	}
 
-	void OnUpdate() {
+	void OnUpdate(Maple::Timestep ts) {
+
+		MP_INFO("Delta Time: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMilliseconds());
 
 		// Update camera
 		if (Maple::Input::IsKeyPressed(MP_KEY_A))
-			m_Camera.AddToPosition(-m_CameraSpeed * m_Camera.GetRightVector());
+			m_Camera.AddToPosition(-m_CameraSpeed * ts * m_Camera.GetRightVector());
 		if (Maple::Input::IsKeyPressed(MP_KEY_D))
-			m_Camera.AddToPosition( m_CameraSpeed * m_Camera.GetRightVector());
+			m_Camera.AddToPosition( m_CameraSpeed * ts * m_Camera.GetRightVector());
 		if (Maple::Input::IsKeyPressed(MP_KEY_W))
-			m_Camera.AddToPosition( m_CameraSpeed * m_Camera.GetUpVector());
+			m_Camera.AddToPosition( m_CameraSpeed * ts * m_Camera.GetUpVector());
 		if (Maple::Input::IsKeyPressed(MP_KEY_S))
-			m_Camera.AddToPosition(-m_CameraSpeed * m_Camera.GetUpVector());
+			m_Camera.AddToPosition(-m_CameraSpeed * ts * m_Camera.GetUpVector());
 
 		if (Maple::Input::IsKeyPressed(MP_KEY_Q))
-			m_Camera.AddToRotation( m_CameraRotationSpeed);
+			m_Camera.AddToRotation( ts * m_CameraRotationSpeed);
 		if (Maple::Input::IsKeyPressed(MP_KEY_E))
-			m_Camera.AddToRotation(-m_CameraRotationSpeed);
+			m_Camera.AddToRotation(-ts * m_CameraRotationSpeed);
 
 		Maple::RenderCommand::SetClearColor({ 0.07f, 0.08f, 0.1f, 1.0f });
 		Maple::RenderCommand::Clear();
@@ -168,8 +170,8 @@ void main() {
 		// Camera
 		Maple::OrthographicCamera m_Camera;
 		// Camera movement and rotation speeds
-		float m_CameraSpeed = 0.05f;
-		float m_CameraRotationSpeed = 0.5f;
+		float m_CameraSpeed = 5.0f;
+		float m_CameraRotationSpeed = 180.0f;
 };
 
 class Sandbox : public Maple::Application {

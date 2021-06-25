@@ -6,6 +6,8 @@
 #include "Maple/Layer.h"
 #include "Maple/Log.h"
 
+#include "Maple/Core/Timestep.h"
+
 #include "Maple/Input.h"
 #include "Maple/KeyCodes.h"
 #include "Maple/MouseButtonCodes.h"

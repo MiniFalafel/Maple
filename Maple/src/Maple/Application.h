@@ -7,6 +7,8 @@
 #include "Maple/Events/Event.h"
 #include "Maple/Events/ApplicationEvent.h"
 
+#include "Maple/Core/Timestep.h"
+
 #include "Maple/ImGui/ImGuiLayer.h"
 
 namespace Maple {
@@ -36,6 +38,7 @@ namespace Maple {
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
+		float m_LastFrameTime = 0.0f;
 
 		// Single instance of self for the "Get" function
 		static Application* s_Instance;
