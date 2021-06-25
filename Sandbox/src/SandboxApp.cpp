@@ -5,7 +5,8 @@
 class ExampleLayer : public Maple::Layer {
 
 public:
-	ExampleLayer() : Layer("Example") {
+	// TODO: Setup automatic aspect ratio!
+	ExampleLayer() : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) {
 		m_VAO.reset(Maple::VertexArray::Create());
 
 		float vertices[7 * 3] = {
@@ -31,10 +32,10 @@ public:
 		m_SquareVAO.reset(Maple::VertexArray::Create());
 
 		float squareVertices[3 * 4] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f
+			-0.75f, -0.75f, 0.0f,
+			 0.75f, -0.75f, 0.0f,
+			 0.75f,  0.75f, 0.0f,
+			-0.75f,  0.75f, 0.0f
 		};
 		std::shared_ptr<Maple::VertexBuffer> squareVBO;
 		squareVBO.reset(Maple::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
@@ -56,13 +57,15 @@ public:
 layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec4 aColor;
 
+uniform mat4 uViewProjectionMatrix;
+
 out vec3 Pos;
 out vec4 Color;
 
 void main() {
 	Pos = aPos;
 	Color = aColor;
-	gl_Position = vec4(Pos, 1.0);
+	gl_Position = uViewProjectionMatrix * vec4(Pos, 1.0);
 }
 		)";
 		std::string fragmentSrc = R"(
@@ -80,12 +83,13 @@ void main() {
 #version 330 core
 layout(location = 0) in vec3 aPos;
 
+uniform mat4 uViewProjectionMatrix;
+
 out vec3 Pos;
-out vec4 Color;
 
 void main() {
 	Pos = aPos;
-	gl_Position = vec4(1.5 * Pos, 1.0);
+	gl_Position = uViewProjectionMatrix * vec4(Pos, 1.0);
 }
 		)";
 		std::string squareFragmentSrc = R"(
@@ -104,16 +108,31 @@ void main() {
 
 	void OnUpdate() {
 
+		// Update camera
+		if (Maple::Input::IsKeyPressed(MP_KEY_A))
+			m_Camera.AddToPosition(-m_CameraSpeed * m_Camera.GetRightVector());
+		if (Maple::Input::IsKeyPressed(MP_KEY_D))
+			m_Camera.AddToPosition( m_CameraSpeed * m_Camera.GetRightVector());
+		if (Maple::Input::IsKeyPressed(MP_KEY_W))
+			m_Camera.AddToPosition( m_CameraSpeed * m_Camera.GetUpVector());
+		if (Maple::Input::IsKeyPressed(MP_KEY_S))
+			m_Camera.AddToPosition(-m_CameraSpeed * m_Camera.GetUpVector());
+
+		if (Maple::Input::IsKeyPressed(MP_KEY_Q))
+			m_Camera.AddToRotation( m_CameraRotationSpeed);
+		if (Maple::Input::IsKeyPressed(MP_KEY_E))
+			m_Camera.AddToRotation(-m_CameraRotationSpeed);
+
 		Maple::RenderCommand::SetClearColor({ 0.07f, 0.08f, 0.1f, 1.0f });
 		Maple::RenderCommand::Clear();
 
-		Maple::Renderer::BeginScene();
-		{
-			m_SquareShader->Bind();
-			Maple::Renderer::Submit(m_SquareVAO);
+		//m_Camera.SetPosition(m_CameraPosition);
+		//m_Camera.SetRotation(180.0f);
 
-			m_Shader->Bind();
-			Maple::Renderer::Submit(m_VAO);
+		Maple::Renderer::BeginScene(m_Camera);
+		{
+			Maple::Renderer::Submit(m_SquareShader, m_SquareVAO);
+			Maple::Renderer::Submit(m_Shader, m_VAO);
 		}
 		Maple::Renderer::EndScene();
 	}
@@ -125,12 +144,16 @@ void main() {
 	}
 
 	void OnEvent(Maple::Event& event) override {
-		// Check for the space bar and say "Jump"
-		if (event.GetEventType() == Maple::EventType::KeyPressed) {
-			Maple::KeyPressedEvent& e = (Maple::KeyPressedEvent&)event;
-			if (e.GetKeyCode() == MP_KEY_SPACE)
-				MP_TRACE("Jump!");
-		}
+		Maple::EventDispatcher dispatcher(event);
+		// Set window resize function
+		dispatcher.Dispatch<Maple::WindowResizeEvent>(MP_BIND_EVENT_FN(ExampleLayer::OnWindowResize));
+	}
+
+	bool OnWindowResize(Maple::WindowResizeEvent& event) {
+		Maple::WindowResizeEvent& e = (Maple::WindowResizeEvent&)event;
+		Maple::RenderCommand::SetViewPort(0, 0, e.GetWidth(), e.GetHeight());
+
+		return false;
 	}
 
 	private:
@@ -142,6 +165,11 @@ void main() {
 		std::shared_ptr<Maple::VertexArray> m_VAO;
 		std::shared_ptr<Maple::VertexArray> m_SquareVAO;
 
+		// Camera
+		Maple::OrthographicCamera m_Camera;
+		// Camera movement and rotation speeds
+		float m_CameraSpeed = 0.05f;
+		float m_CameraRotationSpeed = 0.5f;
 };
 
 class Sandbox : public Maple::Application {

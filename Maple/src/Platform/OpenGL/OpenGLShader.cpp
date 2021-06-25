@@ -120,4 +120,9 @@ namespace Maple {
 		glUseProgram(0);
 	}
 
+	void OpenGLShader::setMat4(const std::string& name, const glm::mat4& value) const {
+		GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
+		glUniformMatrix4fv(location, 1, GL_FALSE, &value[0][0]);
+	}
+
 }

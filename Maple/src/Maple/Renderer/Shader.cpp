@@ -7,7 +7,6 @@
 #include <glad/glad.h>
 
 namespace Maple {
-
 	Shader* Shader::Create(std::string vertexSrc, std::string fragmentSrc) {
 		switch (Renderer::GetAPI()) {
 			case RendererAPI::API::None:

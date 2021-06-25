@@ -13,6 +13,10 @@ namespace Maple {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
+	void OpenGLRendererAPI::SetViewport(const int x, const int y, const int X, const int Y) {
+		glViewport(x, y, X, Y);
+	}
+
 	void OpenGLRendererAPI::DrawIndexed(const std::shared_ptr<VertexArray>& VAO) {
 		glDrawElements(GL_TRIANGLES, VAO->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}

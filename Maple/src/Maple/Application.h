@@ -9,13 +9,9 @@
 
 #include "Maple/ImGui/ImGuiLayer.h"
 
-#include "Renderer/Shader.h"
-#include "Renderer/Buffer.h"
-#include "Renderer/VertexArray.h"
-
 namespace Maple {
 
-	class MAPLE_API Application {
+	class Application {
 
 	public:
 		Application();

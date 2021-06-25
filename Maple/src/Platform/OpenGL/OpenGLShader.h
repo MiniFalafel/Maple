@@ -14,6 +14,8 @@ namespace Maple {
 		virtual void Bind() const;
 		virtual void Unbind() const;
 
+		virtual void setMat4(const std::string& name, const glm::mat4& value) const;
+
 	private:
 		uint32_t m_ProgramID;
 	};
