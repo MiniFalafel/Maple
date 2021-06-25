@@ -11,6 +11,7 @@
 
 #include "Renderer/Shader.h"
 #include "Renderer/Buffer.h"
+#include "Renderer/VertexArray.h"
 
 namespace Maple {
 
@@ -40,11 +41,11 @@ namespace Maple {
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 
-		unsigned int m_VAO;
+		std::shared_ptr<Shader> m_Shader;
+		std::shared_ptr<VertexArray> m_VAO;
 
-		std::unique_ptr<Shader> m_Shader;
-		std::unique_ptr<VertexBuffer> m_VBO;
-		std::unique_ptr<IndexBuffer> m_EBO;
+		std::shared_ptr<Shader> m_SquareShader;
+		std::shared_ptr<VertexArray> m_SquareVAO;
 
 		// Single instance of self for the "Get" function
 		static Application* s_Instance;
