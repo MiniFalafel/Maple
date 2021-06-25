@@ -3,6 +3,17 @@
 
 namespace Maple {
 	
-	RendererAPI Renderer::s_RendererAPI = RendererAPI::OpenGL;
+	void Renderer::BeginScene() {
+
+	}
+
+	void Renderer::EndScene() {
+
+	}
+
+	void Renderer::Submit(const std::shared_ptr<VertexArray>& VAO) {
+		VAO->Bind();
+		RenderCommand::DrawIndexed(VAO);
+	}
 
 }

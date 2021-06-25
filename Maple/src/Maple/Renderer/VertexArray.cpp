@@ -10,10 +10,10 @@ namespace Maple {
 
 	VertexArray* VertexArray::Create() {
 		switch (Renderer::GetAPI()) {
-			case RendererAPI::None:
+			case RendererAPI::API::None:
 				MP_CORE_ASSERT(false, "RendererAPI::None is not currently supported!");
 				return nullptr;
-			case RendererAPI::OpenGL:
+			case RendererAPI::API::OpenGL:
 				return new OpenGLVertexArray();
 		}
 

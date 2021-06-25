@@ -57,7 +57,7 @@ namespace Maple {
 				ShaderDataTypeToOpenGLBaseType(e.Type),
 				e.Normalized ? GL_TRUE : GL_FALSE,
 				layout.GetStride(),
-				(const void*)(e.Offset)
+				(const void*)e.Offset
 			);
 			index++;
 		}

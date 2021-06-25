@@ -10,10 +10,10 @@ namespace Maple {
 
 	VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size) {
 		switch (Renderer::GetAPI()) {
-			case RendererAPI::None:
+		case RendererAPI::API::None:
 				MP_CORE_ASSERT(false, "RendererAPI::None is not currently supported!");
 				return nullptr;
-			case RendererAPI::OpenGL:
+			case RendererAPI::API::OpenGL:
 				return new OpenGLVertexBuffer(vertices, size);
 		}
 
@@ -23,10 +23,10 @@ namespace Maple {
 
 	IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t count) {
 		switch (Renderer::GetAPI()) {
-			case RendererAPI::None:
+			case RendererAPI::API::None:
 				MP_CORE_ASSERT(false, "RendererAPI::None is not currently supported!");
 				return nullptr;
-			case RendererAPI::OpenGL:
+			case RendererAPI::API::OpenGL:
 				return new OpenGLIndexBuffer(indices, count);
 		}
 

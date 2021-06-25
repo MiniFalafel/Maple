@@ -41,12 +41,6 @@ namespace Maple {
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_VAO;
-
-		std::shared_ptr<Shader> m_SquareShader;
-		std::shared_ptr<VertexArray> m_SquareVAO;
-
 		// Single instance of self for the "Get" function
 		static Application* s_Instance;
 	};

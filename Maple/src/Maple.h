@@ -10,6 +10,8 @@
 #include "Maple/KeyCodes.h"
 #include "Maple/MouseButtonCodes.h"
 
+#include "Maple/Renderer/Renderer.h"
+
 #include "Maple/ImGui/ImGuiLayer.h"
 
 // *********************Entry Point**********************
