@@ -32,10 +32,10 @@ public:
 		m_SquareVAO.reset(Maple::VertexArray::Create());
 
 		float squareVertices[3 * 4] = {
-			-0.75f, -0.75f, 0.0f,
-			 0.75f, -0.75f, 0.0f,
-			 0.75f,  0.75f, 0.0f,
-			-0.75f,  0.75f, 0.0f
+			-0.5f, -0.5f, 0.0f,
+			 0.5f, -0.5f, 0.0f,
+			 0.5f,  0.5f, 0.0f,
+			-0.5f,  0.5f, 0.0f
 		};
 		std::shared_ptr<Maple::VertexBuffer> squareVBO;
 		squareVBO.reset(Maple::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
@@ -58,12 +58,13 @@ layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec4 aColor;
 
 uniform mat4 uViewProjectionMatrix;
+uniform mat4 uModelMatrix;
 
 out vec3 Pos;
 out vec4 Color;
 
 void main() {
-	Pos = aPos;
+	Pos = vec3(uModelMatrix * vec4(aPos, 1.0));
 	Color = aColor;
 	gl_Position = uViewProjectionMatrix * vec4(Pos, 1.0);
 }
@@ -84,11 +85,12 @@ void main() {
 layout(location = 0) in vec3 aPos;
 
 uniform mat4 uViewProjectionMatrix;
+uniform mat4 uModelMatrix;
 
 out vec3 Pos;
 
 void main() {
-	Pos = aPos;
+	Pos = vec3(uModelMatrix * vec4(aPos, 1.0));
 	gl_Position = uViewProjectionMatrix * vec4(Pos, 1.0);
 }
 		)";
@@ -108,8 +110,6 @@ void main() {
 
 	void OnUpdate(Maple::Timestep ts) {
 
-		MP_INFO("Delta Time: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMilliseconds());
-
 		// Update camera
 		if (Maple::Input::IsKeyPressed(MP_KEY_A))
 			m_Camera.AddToPosition(-m_CameraSpeed * ts * m_Camera.GetRightVector());
@@ -125,15 +125,21 @@ void main() {
 		if (Maple::Input::IsKeyPressed(MP_KEY_E))
 			m_Camera.AddToRotation(-ts * m_CameraRotationSpeed);
 
+		// Square transform
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
 		Maple::RenderCommand::SetClearColor({ 0.07f, 0.08f, 0.1f, 1.0f });
 		Maple::RenderCommand::Clear();
 
-		//m_Camera.SetPosition(m_CameraPosition);
-		//m_Camera.SetRotation(180.0f);
-
 		Maple::Renderer::BeginScene(m_Camera);
 		{
-			Maple::Renderer::Submit(m_SquareShader, m_SquareVAO);
+			for (int y = -10; y < 10; y++) {
+				for (int x = -10; x < 10; x++) {
+					glm::vec3 offsetPos((float)x * 0.11f, (float)y * 0.11f, 0.0f);
+					glm::mat4 squareTransform = glm::translate(glm::mat4(1.0f), offsetPos) * scale;
+					Maple::Renderer::Submit(m_SquareShader, m_SquareVAO, squareTransform);
+				}
+			}
 			Maple::Renderer::Submit(m_Shader, m_VAO);
 		}
 		Maple::Renderer::EndScene();
