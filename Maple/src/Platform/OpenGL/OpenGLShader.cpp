@@ -109,7 +109,6 @@ namespace Maple {
 
 	OpenGLShader::~OpenGLShader() {
 		glDeleteProgram(m_ProgramID);
-
 	}
 
 	void OpenGLShader::Bind() const {

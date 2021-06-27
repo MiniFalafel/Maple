@@ -39,7 +39,6 @@ namespace Maple {
 		uint32_t Offset;
 		bool Normalized;
 
-		BufferElement() {}
 		BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)
 			: Type(type), Name(name), Size(ShaderDataTypeSize(type)), Offset(0), Normalized(normalized) {
 			
@@ -103,7 +102,7 @@ namespace Maple {
 	class VertexBuffer {
 
 	public:
-		virtual ~VertexBuffer() {}
+		virtual ~VertexBuffer() = default;
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
@@ -118,7 +117,7 @@ namespace Maple {
 	class IndexBuffer {
 
 	public:
-		virtual ~IndexBuffer() {}
+		virtual ~IndexBuffer() = default;
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;

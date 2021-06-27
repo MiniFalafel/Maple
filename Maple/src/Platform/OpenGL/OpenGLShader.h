@@ -1,7 +1,7 @@
 #pragma once
-#include "OpenGLShader.h"
 
 #include "Maple/Renderer/Shader.h"
+#include <glm/glm.hpp>
 
 namespace Maple {
 

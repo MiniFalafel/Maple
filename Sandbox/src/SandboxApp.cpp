@@ -1,4 +1,5 @@
 #include <Maple.h>
+#include "Platform/OpenGL/OpenGLShader.h"
 
 #include "imgui/imgui.h"
 
@@ -107,7 +108,7 @@ void main() {
 }
 )";
 		m_Shader.reset(Maple::Shader::Create(vertexSrc, fragmentSrc));
-		m_SquareShader.reset(Maple::Shader::Create(squareVertexSrc, squareFragmentSrc));
+		m_FlatColorShader.reset(Maple::Shader::Create(squareVertexSrc, squareFragmentSrc));
 	}
 
 	void OnUpdate(Maple::Timestep ts) {
@@ -137,15 +138,15 @@ void main() {
 		{
 			glm::vec3 redColor(0.8, 0.2, 0.3);
 			glm::vec3 blueColor(0.2, 0.3, 0.8);
+
+			std::dynamic_pointer_cast<Maple::OpenGLShader>(m_FlatColorShader)->Bind();
+			std::dynamic_pointer_cast<Maple::OpenGLShader>(m_FlatColorShader)->setVec3("uColor", m_SquareColor);
+
 			for (int y = -10; y < 10; y++) {
 				for (int x = -10; x < 10; x++) {
 					glm::vec3 offsetPos((float)x * 0.11f, (float)y * 0.11f, 0.0f);
 					glm::mat4 squareTransform = glm::translate(glm::mat4(1.0f), offsetPos) * scale;
-					if ((x + y) % 2 == 0)
-						m_SquareShader->setVec3("uColor", m_RedColor);
-					else
-						m_SquareShader->setVec3("uColor", blueColor);
-					Maple::Renderer::Submit(m_SquareShader, m_SquareVAO, squareTransform);
+					Maple::Renderer::Submit(m_FlatColorShader, m_SquareVAO, squareTransform);
 				}
 			}
 			Maple::Renderer::Submit(m_Shader, m_VAO);
@@ -155,7 +156,7 @@ void main() {
 
 	virtual void OnImGuiRender() override {
 		ImGui::Begin("Material Settings");
-		ImGui::ColorEdit3("Material Color", &m_RedColor[0], ImGuiColorEditFlags_PickerHueWheel);
+		ImGui::ColorEdit3("Material Color", &m_SquareColor[0], ImGuiColorEditFlags_PickerHueWheel);
 		ImGui::End();
 	}
 
@@ -175,7 +176,7 @@ void main() {
 	private:
 		// Shaders
 		std::shared_ptr<Maple::Shader> m_Shader;
-		std::shared_ptr<Maple::Shader> m_SquareShader;
+		std::shared_ptr<Maple::Shader> m_FlatColorShader;
 
 		// Vertex Arrays
 		std::shared_ptr<Maple::VertexArray> m_VAO;
@@ -188,7 +189,7 @@ void main() {
 		float m_CameraRotationSpeed = 180.0f;
 
 		// Colors
-		glm::vec3 m_RedColor = glm::vec3(0.8f, 0.2f, 0.3f);
+		glm::vec3 m_SquareColor = glm::vec3(0.8f, 0.2f, 0.3f);
 };
 
 class Sandbox : public Maple::Application {

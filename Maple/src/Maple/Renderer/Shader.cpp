@@ -15,5 +15,7 @@ namespace Maple {
 			case RendererAPI::API::OpenGL:
 				return new OpenGLShader(vertexSrc, fragmentSrc);
 		}
+
+		MP_CORE_ASSERT(false, "Unknown RendererAPI!");
 	}
 }
