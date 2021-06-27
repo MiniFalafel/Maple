@@ -120,9 +120,41 @@ namespace Maple {
 		glUseProgram(0);
 	}
 
+	// Uniforms
+	// Matrices
+	void OpenGLShader::setMat3(const std::string& name, const glm::mat3& value) const {
+		GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
+		glUniformMatrix3fv(location, 1, GL_FALSE, &value[0][0]);
+	}
 	void OpenGLShader::setMat4(const std::string& name, const glm::mat4& value) const {
 		GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
 		glUniformMatrix4fv(location, 1, GL_FALSE, &value[0][0]);
+	}
+	// Vectors
+	void OpenGLShader::setVec2(const std::string& name, const glm::vec2& value) const {
+		GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
+		glUniform2f(location, value[0], value[1]);
+	}
+	void OpenGLShader::setVec3(const std::string& name, const glm::vec3& value) const {
+		GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
+		glUniform3f(location, value[0], value[1], value[2]);
+	}
+	void OpenGLShader::setVec4(const std::string& name, const glm::vec4& value) const {
+		GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
+		glUniform4f(location, value[0], value[1], value[2], value[3]);
+	}
+	// Float, Int, and Bool
+	void OpenGLShader::setFloat(const std::string& name, const float& value) const {
+		GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
+		glUniform1f(location, value);
+	}
+	void OpenGLShader::setInt(const std::string& name, const int& value) const {
+		GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
+		glUniform1i(location, value);
+	}
+	void OpenGLShader::setBool(const std::string& name, const bool& value) const {
+		GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
+		glUniform1i(location, value);
 	}
 
 }

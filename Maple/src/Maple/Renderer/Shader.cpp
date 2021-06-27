@@ -16,5 +16,4 @@ namespace Maple {
 				return new OpenGLShader(vertexSrc, fragmentSrc);
 		}
 	}
-
 }

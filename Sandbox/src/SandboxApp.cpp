@@ -98,10 +98,12 @@ void main() {
 #version 330 core
 layout(location = 0) out vec4 FragColor;
 
+uniform vec3 uColor;
+
 in vec3 Pos;
 
 void main() {
-	FragColor = vec4(0.2, 0.2, 0.8, 1.0);
+	FragColor = vec4(uColor, 1.0);
 }
 )";
 		m_Shader.reset(Maple::Shader::Create(vertexSrc, fragmentSrc));
@@ -133,10 +135,16 @@ void main() {
 
 		Maple::Renderer::BeginScene(m_Camera);
 		{
+			glm::vec3 redColor(0.8, 0.2, 0.3);
+			glm::vec3 blueColor(0.2, 0.3, 0.8);
 			for (int y = -10; y < 10; y++) {
 				for (int x = -10; x < 10; x++) {
 					glm::vec3 offsetPos((float)x * 0.11f, (float)y * 0.11f, 0.0f);
 					glm::mat4 squareTransform = glm::translate(glm::mat4(1.0f), offsetPos) * scale;
+					if ((x + y) % 2 == 0)
+						m_SquareShader->setVec3("uColor", m_RedColor);
+					else
+						m_SquareShader->setVec3("uColor", blueColor);
 					Maple::Renderer::Submit(m_SquareShader, m_SquareVAO, squareTransform);
 				}
 			}
@@ -146,8 +154,8 @@ void main() {
 	}
 
 	virtual void OnImGuiRender() override {
-		ImGui::Begin("Test");
-		ImGui::Text("Hello World!");
+		ImGui::Begin("Material Settings");
+		ImGui::ColorEdit3("Material Color", &m_RedColor[0], ImGuiColorEditFlags_PickerHueWheel);
 		ImGui::End();
 	}
 
@@ -178,6 +186,9 @@ void main() {
 		// Camera movement and rotation speeds
 		float m_CameraSpeed = 5.0f;
 		float m_CameraRotationSpeed = 180.0f;
+
+		// Colors
+		glm::vec3 m_RedColor = glm::vec3(0.8f, 0.2f, 0.3f);
 };
 
 class Sandbox : public Maple::Application {
