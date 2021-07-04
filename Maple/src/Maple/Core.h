@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #ifdef MP_PLATFORM_WINDOWS
 #if MP_DYNAMIC_BUILD
 	#ifdef MP_BUILD_DLL
@@ -29,3 +31,13 @@
 #define MP_BIND_EVENT_FN(func) std::bind(&func, this, std::placeholders::_1)
 
 #define BIT(x) (1 << x)
+
+namespace Maple {
+
+	template<typename T>
+	using Scope = std::unique_ptr<T>;
+
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+	
+}

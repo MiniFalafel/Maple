@@ -40,7 +40,7 @@ namespace Maple {
 		glBindVertexArray(0);
 	}
 
-	void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& VBO) {
+	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& VBO) {
 
 		MP_CORE_ASSERT(VBO->GetLayout().GetElements().size(), "Vertex buffer layout is empty!");
 
@@ -64,7 +64,7 @@ namespace Maple {
 		m_VertexBuffers.push_back(VBO);
 	}
 
-	void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& EBO) {
+	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& EBO) {
 		glBindVertexArray(m_VertexArrayID);
 		EBO->Bind();
 

@@ -12,7 +12,7 @@ namespace Maple {
 		
 		inline static void SetViewPort(const int x, const int y, const int X, const int Y) { s_RendererAPI->SetViewport(x, y, X, Y); }
 
-		inline static void DrawIndexed(const std::shared_ptr<VertexArray>& VAO) {
+		inline static void DrawIndexed(const Ref<VertexArray>& VAO) {
 			s_RendererAPI->DrawIndexed(VAO);
 		}
 

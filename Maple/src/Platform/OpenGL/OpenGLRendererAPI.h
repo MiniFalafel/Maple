@@ -12,7 +12,7 @@ namespace Maple {
 
 		virtual void SetViewport(const int x, const int y, const int X, const int Y) override;
 
-		virtual void DrawIndexed(const std::shared_ptr<VertexArray>& VAO) override;
+		virtual void DrawIndexed(const Ref<VertexArray>& VAO) override;
 
 
 	};

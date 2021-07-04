@@ -15,7 +15,7 @@ public:
 			 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
 			 0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f
 		};
-		std::shared_ptr<Maple::VertexBuffer> m_VBO;
+		Maple::Ref<Maple::VertexBuffer> m_VBO;
 		m_VBO.reset(Maple::VertexBuffer::Create(vertices, sizeof(vertices)));
 		Maple::BufferLayout layout = {
 			{ Maple::ShaderDataType::fVec3, "aPos" },
@@ -25,7 +25,7 @@ public:
 		m_VAO->AddVertexBuffer(m_VBO);
 
 		uint32_t indices[3] = { 0, 1, 2 };
-		std::shared_ptr<Maple::IndexBuffer> m_EBO;
+		Maple::Ref<Maple::IndexBuffer> m_EBO;
 		m_EBO.reset(Maple::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		m_VAO->SetIndexBuffer(m_EBO);
 
@@ -38,7 +38,7 @@ public:
 			 0.5f,  0.5f, 0.0f,
 			-0.5f,  0.5f, 0.0f
 		};
-		std::shared_ptr<Maple::VertexBuffer> squareVBO;
+		Maple::Ref<Maple::VertexBuffer> squareVBO;
 		squareVBO.reset(Maple::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 		squareVBO->SetLayout({
 			{ Maple::ShaderDataType::fVec3, "aPos" }
@@ -49,7 +49,7 @@ public:
 			0, 1, 2, // Bottom tri
 			0, 2, 3  // Top tri
 		};
-		std::shared_ptr<Maple::IndexBuffer> squareEBO;
+		Maple::Ref<Maple::IndexBuffer> squareEBO;
 		squareEBO.reset(Maple::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 		m_SquareVAO->SetIndexBuffer(squareEBO);
 
@@ -136,9 +136,6 @@ void main() {
 
 		Maple::Renderer::BeginScene(m_Camera);
 		{
-			glm::vec3 redColor(0.8, 0.2, 0.3);
-			glm::vec3 blueColor(0.2, 0.3, 0.8);
-
 			std::dynamic_pointer_cast<Maple::OpenGLShader>(m_FlatColorShader)->Bind();
 			std::dynamic_pointer_cast<Maple::OpenGLShader>(m_FlatColorShader)->setVec3("uColor", m_SquareColor);
 
@@ -149,7 +146,8 @@ void main() {
 					Maple::Renderer::Submit(m_FlatColorShader, m_SquareVAO, squareTransform);
 				}
 			}
-			Maple::Renderer::Submit(m_Shader, m_VAO);
+			// Triangle
+			// Maple::Renderer::Submit(m_Shader, m_VAO);
 		}
 		Maple::Renderer::EndScene();
 	}
@@ -175,12 +173,12 @@ void main() {
 
 	private:
 		// Shaders
-		std::shared_ptr<Maple::Shader> m_Shader;
-		std::shared_ptr<Maple::Shader> m_FlatColorShader;
+		Maple::Ref<Maple::Shader> m_Shader;
+		Maple::Ref<Maple::Shader> m_FlatColorShader;
 
 		// Vertex Arrays
-		std::shared_ptr<Maple::VertexArray> m_VAO;
-		std::shared_ptr<Maple::VertexArray> m_SquareVAO;
+		Maple::Ref<Maple::VertexArray> m_VAO;
+		Maple::Ref<Maple::VertexArray> m_SquareVAO;
 
 		// Camera
 		Maple::OrthographicCamera m_Camera;

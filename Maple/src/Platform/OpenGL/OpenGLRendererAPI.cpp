@@ -17,7 +17,7 @@ namespace Maple {
 		glViewport(x, y, X, Y);
 	}
 
-	void OpenGLRendererAPI::DrawIndexed(const std::shared_ptr<VertexArray>& VAO) {
+	void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& VAO) {
 		glDrawElements(GL_TRIANGLES, VAO->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
 
