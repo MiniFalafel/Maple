@@ -17,6 +17,7 @@ includeDirs["glad"] = "Maple/vendor/glad/include"
 includeDirs["spdlog"] = "Maple/vendor/spdlog/include"
 includeDirs["ImGui"] = "Maple/vendor/imgui"
 includeDirs["glm"] = "Maple/vendor/glm"
+includeDirs["stb_image"] = "Maple/vendor/stb_image"
 
 -- Include extra premake files that we want to execute
 include "Maple/vendor/GLFW"
@@ -39,6 +40,8 @@ project "Maple"
 	files {
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.h",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
@@ -53,7 +56,8 @@ project "Maple"
 		"%{includeDirs.GLFW}",
 		"%{includeDirs.glad}",
 		"%{includeDirs.ImGui}",
-		"%{includeDirs.glm}"
+		"%{includeDirs.glm}",
+		"%{includeDirs.stb_image}"
 	}
 	
 	links {

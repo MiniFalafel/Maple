@@ -8,41 +8,22 @@ class ExampleLayer : public Maple::Layer {
 public:
 	// TODO: Setup automatic aspect ratio!
 	ExampleLayer() : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) {
-		m_VAO.reset(Maple::VertexArray::Create());
-
-		float vertices[7 * 3] = {
-			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-			 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-			 0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f
-		};
-		Maple::Ref<Maple::VertexBuffer> m_VBO;
-		m_VBO.reset(Maple::VertexBuffer::Create(vertices, sizeof(vertices)));
-		Maple::BufferLayout layout = {
-			{ Maple::ShaderDataType::fVec3, "aPos" },
-			{ Maple::ShaderDataType::fVec4, "aColor" }
-		};
-		m_VBO->SetLayout(layout);
-		m_VAO->AddVertexBuffer(m_VBO);
-
-		uint32_t indices[3] = { 0, 1, 2 };
-		Maple::Ref<Maple::IndexBuffer> m_EBO;
-		m_EBO.reset(Maple::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
-		m_VAO->SetIndexBuffer(m_EBO);
-
-		// Square setup
+		
+		// Square mesh
 		m_SquareVAO.reset(Maple::VertexArray::Create());
 
-		float squareVertices[3 * 4] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f
+		float squareVertices[5 * 4] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 		Maple::Ref<Maple::VertexBuffer> squareVBO;
-		squareVBO.reset(Maple::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		squareVBO = Maple::VertexBuffer::Create(squareVertices, sizeof(squareVertices));
 		squareVBO->SetLayout({
-			{ Maple::ShaderDataType::fVec3, "aPos" }
-			});
+			{ Maple::ShaderDataType::fVec3, "aPos" },
+			{ Maple::ShaderDataType::fVec2, "aTexCoords" }
+		});
 		m_SquareVAO->AddVertexBuffer(squareVBO);
 
 		uint32_t squareIndices[6] = {
@@ -50,37 +31,12 @@ public:
 			0, 2, 3  // Top tri
 		};
 		Maple::Ref<Maple::IndexBuffer> squareEBO;
-		squareEBO.reset(Maple::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+		squareEBO = Maple::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		m_SquareVAO->SetIndexBuffer(squareEBO);
 
-		std::string vertexSrc = R"(
-#version 330 core
-layout(location = 0) in vec3 aPos;
-layout(location = 1) in vec4 aColor;
-
-uniform mat4 uViewProjectionMatrix;
-uniform mat4 uModelMatrix;
-
-out vec3 Pos;
-out vec4 Color;
-
-void main() {
-	Pos = vec3(uModelMatrix * vec4(aPos, 1.0));
-	Color = aColor;
-	gl_Position = uViewProjectionMatrix * vec4(Pos, 1.0);
-}
-		)";
-		std::string fragmentSrc = R"(
-#version 330 core
-layout(location = 0) out vec4 FragColor;
-
-in vec3 Pos;
-in vec4 Color;
-
-void main() {
-	FragColor = vec4(Color.rgb, 1.0);
-}
-)";
+		// ************************************
+		// *        Flat Color Shader         *
+		// ************************************
 		std::string squareVertexSrc = R"(
 #version 330 core
 layout(location = 0) in vec3 aPos;
@@ -88,10 +44,8 @@ layout(location = 0) in vec3 aPos;
 uniform mat4 uViewProjectionMatrix;
 uniform mat4 uModelMatrix;
 
-out vec3 Pos;
-
 void main() {
-	Pos = vec3(uModelMatrix * vec4(aPos, 1.0));
+	vec3 Pos = vec3(uModelMatrix * vec4(aPos, 1.0));
 	gl_Position = uViewProjectionMatrix * vec4(Pos, 1.0);
 }
 		)";
@@ -101,14 +55,46 @@ layout(location = 0) out vec4 FragColor;
 
 uniform vec3 uColor;
 
-in vec3 Pos;
-
 void main() {
 	FragColor = vec4(uColor, 1.0);
 }
 )";
-		m_Shader.reset(Maple::Shader::Create(vertexSrc, fragmentSrc));
-		m_FlatColorShader.reset(Maple::Shader::Create(squareVertexSrc, squareFragmentSrc));
+		m_FlatColorShader = Maple::Shader::Create(squareVertexSrc, squareFragmentSrc);
+		// ************************************
+		// *         Texture Shader           *
+		// ************************************
+		std::string textureVertexSrc = R"(
+#version 330 core
+layout(location = 0) in vec3 aPos;
+layout(location = 1) in vec2 aTexCoords;
+
+uniform mat4 uViewProjectionMatrix;
+uniform mat4 uModelMatrix;
+
+out vec2 TexCoords;
+
+void main() {
+	vec3 Pos = vec3(uModelMatrix * vec4(aPos, 1.0));
+	TexCoords = vec2(aTexCoords.xy);
+	gl_Position = uViewProjectionMatrix * vec4(Pos, 1.0);
+}
+		)";
+		std::string textureFragmentSrc = R"(
+#version 330 core
+layout(location = 0) out vec4 FragColor;
+
+uniform sampler2D uTexImage;
+
+in vec2 TexCoords;
+
+void main() {
+	FragColor = vec4(texture(uTexImage, TexCoords).rgb, 1.0);
+}
+)";
+		m_TextureShader = Maple::Shader::Create(textureVertexSrc, textureFragmentSrc);
+
+		// Setup texture
+		m_Texture = Maple::Texture2D::Create("assets/textures/checker.png");
 	}
 
 	void OnUpdate(Maple::Timestep ts) {
@@ -146,8 +132,14 @@ void main() {
 					Maple::Renderer::Submit(m_FlatColorShader, m_SquareVAO, squareTransform);
 				}
 			}
-			// Triangle
-			// Maple::Renderer::Submit(m_Shader, m_VAO);
+
+			// Large Quad
+			// Bind the texture and set its uniform
+			m_Texture->Bind(0); // Slot 0
+			std::dynamic_pointer_cast<Maple::OpenGLShader>(m_TextureShader)->Bind();
+			std::dynamic_pointer_cast<Maple::OpenGLShader>(m_TextureShader)->setInt("uTexImage", 0);
+			// Submit it
+			Maple::Renderer::Submit(m_TextureShader, m_SquareVAO, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 		}
 		Maple::Renderer::EndScene();
 	}
@@ -173,11 +165,12 @@ void main() {
 
 	private:
 		// Shaders
-		Maple::Ref<Maple::Shader> m_Shader;
-		Maple::Ref<Maple::Shader> m_FlatColorShader;
+		Maple::Ref<Maple::Shader> m_FlatColorShader, m_TextureShader;
+
+		// Textures
+		Maple::Ref<Maple::Texture2D> m_Texture;
 
 		// Vertex Arrays
-		Maple::Ref<Maple::VertexArray> m_VAO;
 		Maple::Ref<Maple::VertexArray> m_SquareVAO;
 
 		// Camera

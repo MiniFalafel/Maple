@@ -20,6 +20,7 @@
 
 #include "Maple/Renderer/Buffer.h"
 #include "Maple/Renderer/Shader.h"
+#include "Maple/Renderer/Texture.h"
 #include "Maple/Renderer/VertexArray.h"
 
 #include "Maple/Renderer/OrthographicCamera.h"

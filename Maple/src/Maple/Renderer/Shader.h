@@ -12,7 +12,7 @@ namespace Maple {
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
 
-		static Shader* Create(std::string vertexSrc, std::string fragmentSrc);
+		static Ref<Shader> Create(std::string vertexSrc, std::string fragmentSrc);
 	};
 
 }
