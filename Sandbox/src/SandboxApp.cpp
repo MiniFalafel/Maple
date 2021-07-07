@@ -63,38 +63,11 @@ void main() {
 		// ************************************
 		// *         Texture Shader           *
 		// ************************************
-		std::string textureVertexSrc = R"(
-#version 330 core
-layout(location = 0) in vec3 aPos;
-layout(location = 1) in vec2 aTexCoords;
-
-uniform mat4 uViewProjectionMatrix;
-uniform mat4 uModelMatrix;
-
-out vec2 TexCoords;
-
-void main() {
-	vec3 Pos = vec3(uModelMatrix * vec4(aPos, 1.0));
-	TexCoords = vec2(aTexCoords.xy);
-	gl_Position = uViewProjectionMatrix * vec4(Pos, 1.0);
-}
-		)";
-		std::string textureFragmentSrc = R"(
-#version 330 core
-layout(location = 0) out vec4 FragColor;
-
-uniform sampler2D uTexImage;
-
-in vec2 TexCoords;
-
-void main() {
-	FragColor = vec4(texture(uTexImage, TexCoords).rgb, 1.0);
-}
-)";
 		m_TextureShader = Maple::Shader::Create(textureVertexSrc, textureFragmentSrc);
 
-		// Setup texture
-		m_Texture = Maple::Texture2D::Create("assets/textures/checker.png");
+		// Setup textures
+		m_CheckerTex = Maple::Texture2D::Create("assets/textures/checker.png");
+		m_AwesomeFaceTex = Maple::Texture2D::Create("assets/textures/awesomeface.png");
 	}
 
 	void OnUpdate(Maple::Timestep ts) {
@@ -133,12 +106,18 @@ void main() {
 				}
 			}
 
-			// Large Quad
-			// Bind the texture and set its uniform
-			m_Texture->Bind(0); // Slot 0
+			// Large Textured Quads
+			// Shader uniforms
 			std::dynamic_pointer_cast<Maple::OpenGLShader>(m_TextureShader)->Bind();
 			std::dynamic_pointer_cast<Maple::OpenGLShader>(m_TextureShader)->setInt("uTexImage", 0);
-			// Submit it
+			// Checker quad
+			m_CheckerTex->Bind(0);
+			// Submit it for rendering
+			Maple::Renderer::Submit(m_TextureShader, m_SquareVAO, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+
+			// Awesomeface quad
+			m_AwesomeFaceTex->Bind(0);
+			// Submit it for rendering
 			Maple::Renderer::Submit(m_TextureShader, m_SquareVAO, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 		}
 		Maple::Renderer::EndScene();
@@ -168,7 +147,7 @@ void main() {
 		Maple::Ref<Maple::Shader> m_FlatColorShader, m_TextureShader;
 
 		// Textures
-		Maple::Ref<Maple::Texture2D> m_Texture;
+		Maple::Ref<Maple::Texture2D> m_CheckerTex, m_AwesomeFaceTex;
 
 		// Vertex Arrays
 		Maple::Ref<Maple::VertexArray> m_SquareVAO;

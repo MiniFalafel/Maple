@@ -16,25 +16,33 @@ namespace Maple {
 		MP_CORE_ASSERT(data, "Texture failed to load!");
 		m_Width = width; m_Height = height;
 
+		GLenum format = 0, internalFormat = 0;
+		if (channels == STBI_grey) {
+			format = GL_RED;
+			internalFormat = GL_RED;
+		}
+		else if (channels == STBI_grey_alpha) {
+			format = GL_RG;
+			internalFormat = GL_RG8;
+		}
+		else if (channels == STBI_rgb) {
+			format = GL_RGB;
+			internalFormat = GL_RGB8;
+		}
+		else if (channels == STBI_rgb_alpha) {
+			format = GL_RGBA;
+			internalFormat = GL_RGBA8;
+		}
+		MP_CORE_ASSERT(internalFormat & format, "Image format not supported!");
+
 		// Now setup the OpenGL texture implementation
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID);
-		glTextureStorage2D(m_TextureID, 1, GL_RGB8, m_Width, m_Height);
+		glTextureStorage2D(m_TextureID, 1, internalFormat, m_Width, m_Height);
 		// Texture parameters
 		glTextureParameteri(m_TextureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTextureParameteri(m_TextureID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		// Upload the data
-		GLenum mode;
-		if (channels == STBI_grey)
-			mode = GL_RED;
-		else if (channels == STBI_grey_alpha)
-			mode = GL_RG;
-		else if (channels == STBI_rgb)
-			mode = GL_RGB;
-		else if (channels == STBI_rgb_alpha)
-			mode = GL_RGBA;
-		else
-			MP_CORE_ASSERT(false, "Image mode not supported!");
-		glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Width, m_Height, mode, GL_UNSIGNED_BYTE, data);
+		glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Width, m_Height, format, GL_UNSIGNED_BYTE, data);
 		// Free the data
 		stbi_image_free(data);
 	}
