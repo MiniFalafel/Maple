@@ -19,6 +19,7 @@
 #include "Maple/Renderer/RenderCommand.h"
 
 #include "Maple/Renderer/Buffer.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 #include "Maple/Renderer/Shader.h"
 #include "Maple/Renderer/Texture.h"
 #include "Maple/Renderer/VertexArray.h"

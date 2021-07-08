@@ -3,12 +3,16 @@
 #include "Maple/Renderer/Shader.h"
 #include <glm/glm.hpp>
 
+// TODO: Definitely remove this at some point because this is kind of ridiculous!
+typedef unsigned int GLenum;
+
 namespace Maple {
 
 	class OpenGLShader : public Shader {
 
 	public:
-		OpenGLShader(std::string vertexSrc, std::string fragmentSrc);
+		OpenGLShader(const std::string& filePath);
+		OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
 		virtual ~OpenGLShader();
 
 		virtual void Bind() const;
@@ -28,6 +32,10 @@ namespace Maple {
 		virtual void setBool(const std::string& name, const bool& value) const;
 
 	private:
+		std::string ReadFile(const std::string& filePath);
+		std::unordered_map<GLenum, std::string> Preprocess(const std::string source);
+		void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
+
 		uint32_t m_ProgramID;
 	};
 

@@ -1,5 +1,4 @@
 #include <Maple.h>
-#include "Platform/OpenGL/OpenGLShader.h"
 
 #include "imgui/imgui.h"
 
@@ -63,7 +62,7 @@ void main() {
 		// ************************************
 		// *         Texture Shader           *
 		// ************************************
-		m_TextureShader = Maple::Shader::Create(textureVertexSrc, textureFragmentSrc);
+		m_TextureShader = Maple::Shader::Create("assets/shaders/Texture.glsl");
 
 		// Setup textures
 		m_CheckerTex = Maple::Texture2D::Create("assets/textures/checker.png");
