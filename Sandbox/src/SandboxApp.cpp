@@ -5,8 +5,7 @@
 class ExampleLayer : public Maple::Layer {
 
 public:
-	// TODO: Setup automatic aspect ratio!
-	ExampleLayer() : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) {
+	ExampleLayer() : Layer("Example"), m_CameraController(1280.0f / 720.0f) {
 		
 		// Square mesh
 		m_SquareVAO.reset(Maple::VertexArray::Create());
@@ -73,31 +72,19 @@ void main() {
 		std::dynamic_pointer_cast<Maple::OpenGLShader>(TextureShader)->setInt("uTexImage", 0);
 	}
 
-	void OnUpdate(Maple::Timestep ts) {
+	void OnUpdate(Maple::Timestep ts) override {
 
 		// Update camera
-		if (Maple::Input::IsKeyPressed(MP_KEY_A))
-			m_Camera.AddToPosition(-m_CameraSpeed * ts * m_Camera.GetRightVector());
-		if (Maple::Input::IsKeyPressed(MP_KEY_D))
-			m_Camera.AddToPosition( m_CameraSpeed * ts * m_Camera.GetRightVector());
-		if (Maple::Input::IsKeyPressed(MP_KEY_W))
-			m_Camera.AddToPosition( m_CameraSpeed * ts * m_Camera.GetUpVector());
-		if (Maple::Input::IsKeyPressed(MP_KEY_S))
-			m_Camera.AddToPosition(-m_CameraSpeed * ts * m_Camera.GetUpVector());
+		m_CameraController.OnUpdate(ts);
 
-		if (Maple::Input::IsKeyPressed(MP_KEY_Q))
-			m_Camera.AddToRotation( ts * m_CameraRotationSpeed);
-		if (Maple::Input::IsKeyPressed(MP_KEY_E))
-			m_Camera.AddToRotation(-ts * m_CameraRotationSpeed);
-
-		// Square transform
-		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
-
+		// Render
 		Maple::RenderCommand::SetClearColor({ 0.07f, 0.08f, 0.1f, 1.0f });
 		Maple::RenderCommand::Clear();
 
-		Maple::Renderer::BeginScene(m_Camera);
+		Maple::Renderer::BeginScene(m_CameraController.GetCamera());
 		{
+			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
 			std::dynamic_pointer_cast<Maple::OpenGLShader>(m_FlatColorShader)->Bind();
 			std::dynamic_pointer_cast<Maple::OpenGLShader>(m_FlatColorShader)->setVec3("uColor", m_SquareColor);
 
@@ -132,6 +119,9 @@ void main() {
 	}
 
 	void OnEvent(Maple::Event& event) override {
+		// Camera events
+		m_CameraController.OnEvent(event);
+
 		Maple::EventDispatcher dispatcher(event);
 		// Set window resize function
 		dispatcher.Dispatch<Maple::WindowResizeEvent>(MP_BIND_EVENT_FN(ExampleLayer::OnWindowResize));
@@ -156,10 +146,7 @@ void main() {
 		Maple::Ref<Maple::VertexArray> m_SquareVAO;
 
 		// Camera
-		Maple::OrthographicCamera m_Camera;
-		// Camera movement and rotation speeds
-		float m_CameraSpeed = 5.0f;
-		float m_CameraRotationSpeed = 180.0f;
+		Maple::OrthographicCameraController m_CameraController;
 
 		// Colors
 		glm::vec3 m_SquareColor = glm::vec3(0.8f, 0.2f, 0.3f);

@@ -32,15 +32,12 @@ namespace Maple {
 		void UpdateVectors();
 
 	private:
-		// Pos and rot
 		glm::vec3 m_Position = glm::vec3(0.0f);
 		float m_Rotation = 0.0f;
 
-		// Direction vectors
 		glm::vec3 m_Right;
 		glm::vec3 m_Up;
 
-		// ViewProjection Matrix
 		glm::mat4 m_View, m_Projection;
 		glm::mat4 m_ViewProjectionMatrix;
 	};
