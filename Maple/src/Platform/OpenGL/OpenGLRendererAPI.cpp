@@ -18,7 +18,7 @@ namespace Maple {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void OpenGLRendererAPI::SetViewport(const int x, const int y, const int X, const int Y) {
+	void OpenGLRendererAPI::SetViewport(const uint32_t x, const uint32_t y, const uint32_t X, const uint32_t Y) {
 		glViewport(x, y, X, Y);
 	}
 

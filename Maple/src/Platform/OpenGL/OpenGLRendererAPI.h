@@ -12,7 +12,7 @@ namespace Maple {
 		virtual void SetClearColor(const glm::vec4& color) override;
 		virtual void Clear() override;
 
-		virtual void SetViewport(const int x, const int y, const int X, const int Y) override;
+		virtual void SetViewport(const uint32_t x, const uint32_t y, const uint32_t X, const uint32_t Y) override;
 
 		virtual void DrawIndexed(const Ref<VertexArray>& VAO) override;
 

@@ -121,17 +121,6 @@ void main() {
 	void OnEvent(Maple::Event& event) override {
 		// Camera events
 		m_CameraController.OnEvent(event);
-
-		Maple::EventDispatcher dispatcher(event);
-		// Set window resize function
-		dispatcher.Dispatch<Maple::WindowResizeEvent>(MP_BIND_EVENT_FN(ExampleLayer::OnWindowResize));
-	}
-
-	bool OnWindowResize(Maple::WindowResizeEvent& event) {
-		Maple::WindowResizeEvent& e = (Maple::WindowResizeEvent&)event;
-		Maple::RenderCommand::SetViewPort(0, 0, e.GetWidth(), e.GetHeight());
-
-		return false;
 	}
 
 	private:

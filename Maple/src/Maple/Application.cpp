@@ -42,6 +42,7 @@ namespace Maple {
 	void Application::OnEvent(Event& e) {
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(MP_BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(MP_BIND_EVENT_FN(Application::OnWindowResize));
 
 		// Loop through each layer to see if it can handle the event
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); ) {
@@ -53,12 +54,15 @@ namespace Maple {
 
 	void Application::Run() {
 		while (m_Running) {
+
 			float time = (float)glfwGetTime(); // Platform::GetTime();
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
-			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate(timestep);
+			if (!m_Minimized) {
+				for (Layer* layer : m_LayerStack)
+					layer->OnUpdate(timestep);
+			}
 
 			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_LayerStack)
@@ -72,5 +76,16 @@ namespace Maple {
 	bool Application::OnWindowClose(WindowCloseEvent& e) {
 		m_Running = false;
 		return true;
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent& e) {
+		if (e.GetWidth() == 0 || e.GetHeight() == 0) {
+			m_Minimized = true;
+			return false;
+		}
+		m_Minimized = false;
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+
+		return false;
 	}
 }

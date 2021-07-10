@@ -15,9 +15,8 @@ namespace Maple {
 	public:
 		virtual void Init() = 0;
 		virtual void SetClearColor(const glm::vec4& color) = 0;
+		virtual void SetViewport(const uint32_t x, const uint32_t  y, const uint32_t X, const uint32_t Y) = 0;
 		virtual void Clear() = 0;
-
-		virtual void SetViewport(const int x, const int  y, const int X, const int Y) = 0;
 
 		virtual void DrawIndexed(const Ref<VertexArray>& VAO) = 0;
 
