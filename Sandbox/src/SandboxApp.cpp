@@ -1,6 +1,9 @@
 #include <Maple.h>
+#include <Maple/Core/EntryPoint.h>
 
 #include "imgui/imgui.h"
+
+#include "Sandbox2D.h"
 
 class ExampleLayer : public Maple::Layer {
 
@@ -8,7 +11,7 @@ public:
 	ExampleLayer() : Layer("Example"), m_CameraController(1280.0f / 720.0f) {
 		
 		// Square mesh
-		m_SquareVAO.reset(Maple::VertexArray::Create());
+		m_SquareVAO = Maple::VertexArray::Create();
 
 		float squareVertices[5 * 4] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
@@ -146,7 +149,8 @@ class Sandbox : public Maple::Application {
 public:
 
 	Sandbox() {
-		PushLayer(new ExampleLayer());
+		//PushLayer(new ExampleLayer());
+		PushLayer(new Sandbox2D());
 	}
 
 	~Sandbox() {

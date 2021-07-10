@@ -1,6 +1,6 @@
 #pragma once
 
-// Yoinked from glfw3.h
+// Copied from glfw3.h
 #define MP_KEY_SPACE              32
 #define MP_KEY_APOSTROPHE         39  /* ' */
 #define MP_KEY_COMMA              44  /* , */

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Maple/Core.h"
+#include "Maple/Core/Core.h"
 
 namespace Maple {
 	
-	class MAPLE_API Input {
+	class Input {
 
 	public:
 

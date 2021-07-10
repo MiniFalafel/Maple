@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Maple/Core.h"
+#include "Maple/Core/Core.h"
 #include "Layer.h"
 
 namespace Maple {
 	
-	class MAPLE_API LayerStack {
+	class LayerStack {
 
 	public:
 		LayerStack();

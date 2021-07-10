@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Maple/Core.h"
+#include "Maple/Core/Core.h"
 
 namespace Maple {
 	

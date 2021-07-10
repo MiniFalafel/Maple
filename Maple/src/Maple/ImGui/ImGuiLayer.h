@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Maple/Layer.h"
+#include "Maple/Core/Layer.h"
 
 #include "Maple/Events/ApplicationEvent.h"
 #include "Maple/Events/MouseEvent.h"
@@ -8,7 +8,7 @@
 
 namespace Maple {
 	
-	class MAPLE_API ImGuiLayer : public Layer {
+	class ImGuiLayer : public Layer {
 
 	public:
 		ImGuiLayer();

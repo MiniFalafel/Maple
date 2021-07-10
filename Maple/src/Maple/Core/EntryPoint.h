@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef MP_ENTRY_POINT
+#define MP_ENTRY_POINT
+
 #ifdef MP_PLATFORM_WINDOWS
 
 extern Maple::Application* Maple::CreateApplication();
@@ -16,5 +19,7 @@ int main(int argc, char** argv) {
 
 	return 0;
 }
+
+#endif
 
 #endif

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Maple/Core.h"
+#include "Maple/Core/Core.h"
 #include "Maple/Core/Timestep.h"
 #include "Maple/Events/Event.h"
 
 namespace Maple {
 	
-	class MAPLE_API Layer {
+	class Layer {
 
 	public:
 		Layer(const std::string& name = "Layer");

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Maple/Window.h"
+#include "Maple/Core/Window.h"
 #include "Maple/Renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>

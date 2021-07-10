@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Core.h"
+#include "Maple/Core/Core.h"
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/ostr.h"
 
 namespace Maple {
 
-	class MAPLE_API Log
+	class Log
 	{
 	public:
 		static void Init();

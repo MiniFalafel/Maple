@@ -1,7 +1,7 @@
 #include "mppch.h"
 #include "Application.h"
 
-#include "Maple/Log.h"
+#include "Maple/Core/Log.h"
 
 #include "Maple/Renderer/Renderer.h"
 

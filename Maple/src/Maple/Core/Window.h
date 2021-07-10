@@ -2,7 +2,7 @@
 
 #include "mppch.h"
 
-#include "Maple/Core.h"
+#include "Maple/Core/Core.h"
 #include "Maple/Events/Event.h"
 
 namespace Maple {
@@ -20,7 +20,7 @@ namespace Maple {
 		
 	};
 
-	class MAPLE_API Window {
+	class Window {
 
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;

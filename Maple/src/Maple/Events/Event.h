@@ -1,7 +1,7 @@
 #pragma once
 #include "mppch.h"
 
-#include "Maple/Core.h"
+#include "Maple/Core/Core.h"
 
 namespace Maple {
 	
@@ -27,7 +27,7 @@ namespace Maple {
 
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
-	class MAPLE_API Event {
+	class Event {
 
 	public:
 		bool Handled = false;

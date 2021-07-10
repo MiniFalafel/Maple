@@ -2,16 +2,16 @@
 
 // Intended for users in applications
 
-#include "Maple/Application.h"
-#include "Maple/Layer.h"
-#include "Maple/Log.h"
+#include "Maple/Core/Application.h"
+#include "Maple/Core/Layer.h"
+#include "Maple/Core/Log.h"
 
 #include "Maple/Core/Timestep.h"
 
-#include "Maple/Input.h"
-#include "Maple/KeyCodes.h"
-#include "Maple/MouseButtonCodes.h"
-#include "Maple/OrthographicCameraController.h"
+#include "Maple/Core/Input.h"
+#include "Maple/Core/KeyCodes.h"
+#include "Maple/Core/MouseButtonCodes.h"
+#include "Maple/Controllers/OrthographicCameraController.h"
 
 #include "Maple/ImGui/ImGuiLayer.h"
 
@@ -25,8 +25,4 @@
 #include "Maple/Renderer/Texture.h"
 #include "Maple/Renderer/VertexArray.h"
 
-//#include "Maple/Renderer/OrthographicCamera.h"
-
-// *********************Entry Point**********************
-#include "Maple/EntryPoint.h"
-// ******************************************************
+#include "Maple/Renderer/OrthographicCamera.h"

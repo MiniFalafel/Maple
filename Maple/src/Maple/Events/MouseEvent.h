@@ -4,7 +4,7 @@
 
 namespace Maple {
 	
-	class MAPLE_API MouseMovedEvent : public Event {
+	class MouseMovedEvent : public Event {
 		float m_MouseX, m_MouseY;
 	public:
 		MouseMovedEvent(float x, float y) : m_MouseX(x), m_MouseY(y) {}
@@ -22,7 +22,7 @@ namespace Maple {
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	};
 
-	class MAPLE_API MouseScrolledEvent : public Event {
+	class MouseScrolledEvent : public Event {
 		float m_xOffset, m_yOffset;
 	public:
 		MouseScrolledEvent(float xOffset, float yOffset) : m_xOffset(xOffset), m_yOffset(yOffset) {}
@@ -40,7 +40,7 @@ namespace Maple {
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	};
 
-	class MAPLE_API MouseButtonEvent : public Event {
+	class MouseButtonEvent : public Event {
 	public:
 		inline int GetMouseButton() const { return m_Button; }
 		
@@ -51,7 +51,7 @@ namespace Maple {
 		int m_Button;
 	};
 
-	class MAPLE_API MouseButtonPressedEvent : public MouseButtonEvent {
+	class MouseButtonPressedEvent : public MouseButtonEvent {
 
 	public:
 		MouseButtonPressedEvent(int button) : MouseButtonEvent(button) {}
@@ -65,7 +65,7 @@ namespace Maple {
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
 
-	class MAPLE_API MouseButtonReleasedEvent : public MouseButtonEvent {
+	class MouseButtonReleasedEvent : public MouseButtonEvent {
 
 	public:
 		MouseButtonReleasedEvent(int button) : MouseButtonEvent(button) {}

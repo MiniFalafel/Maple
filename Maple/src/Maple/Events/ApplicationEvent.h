@@ -4,7 +4,7 @@
 
 namespace Maple {
 	
-	class MAPLE_API WindowResizeEvent : public Event {
+	class WindowResizeEvent : public Event {
 		int m_Width, m_Height;
 	public:
 		WindowResizeEvent(int width, int height) : m_Width(width), m_Height(height) {}
@@ -22,7 +22,7 @@ namespace Maple {
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class MAPLE_API WindowCloseEvent : public Event {
+	class WindowCloseEvent : public Event {
 
 	public:
 		WindowCloseEvent() {}
@@ -31,7 +31,7 @@ namespace Maple {
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class MAPLE_API AppTickEvent : public Event {
+	class AppTickEvent : public Event {
 
 	public:
 		AppTickEvent() {}
@@ -40,7 +40,7 @@ namespace Maple {
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class MAPLE_API AppUpdateEvent : public Event {
+	class AppUpdateEvent : public Event {
 
 	public:
 		AppUpdateEvent() {}
@@ -49,7 +49,7 @@ namespace Maple {
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class MAPLE_API AppRenderEvent : public Event {
+	class AppRenderEvent : public Event {
 
 	public:
 		AppRenderEvent() {}

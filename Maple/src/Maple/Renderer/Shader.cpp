@@ -17,6 +17,7 @@ namespace Maple {
 		}
 
 		MP_CORE_ASSERT(false, "Unknown RendererAPI!");
+		return nullptr;
 	}
 
 	Ref<Shader> Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc) {
@@ -29,6 +30,7 @@ namespace Maple {
 		}
 
 		MP_CORE_ASSERT(false, "Unknown RendererAPI!");
+		return nullptr;
 	}
 
 	// ShaderLibrary

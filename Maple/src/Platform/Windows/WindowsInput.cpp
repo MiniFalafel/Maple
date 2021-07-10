@@ -1,7 +1,7 @@
 #include "mppch.h"
 #include "WindowsInput.h"
 
-#include "Maple/Application.h"
+#include "Maple/Core/Application.h"
 #include <GLFW/glfw3.h>
 
 namespace Maple {

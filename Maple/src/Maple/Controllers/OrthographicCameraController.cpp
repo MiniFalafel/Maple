@@ -1,8 +1,8 @@
 #include "mppch.h"
 #include "OrthographicCameraController.h"
 
-#include "Maple/Input.h"
-#include "Maple/KeyCodes.h"
+#include "Maple/Core/Input.h"
+#include "Maple/Core/KeyCodes.h"
 
 namespace Maple {
 

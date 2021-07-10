@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Maple/Input.h"
+#include "Maple/Core/Input.h"
 
 namespace Maple {
 

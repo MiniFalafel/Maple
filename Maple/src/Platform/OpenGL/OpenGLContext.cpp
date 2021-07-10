@@ -19,7 +19,16 @@ namespace Maple {
 		MP_CORE_INFO("    Vendor:    {0}", glGetString(GL_VENDOR));
 		MP_CORE_INFO("    Renderer:  {0}", glGetString(GL_RENDERER));
 		MP_CORE_INFO("    Version:   {0}", glGetString(GL_VERSION));
+		
+	#ifdef MP_ENABLE_ASSERTS
+			int versionMajor, versionMinor;
+			glGetIntegerv(GL_MAJOR_VERSION, &versionMajor);
+			glGetIntegerv(GL_MAJOR_VERSION, &versionMinor);
+
+			MP_CORE_ASSERT(versionMajor >= 4 && versionMinor >= 4, "Maple requires an OpenGL version of 4.4 or higher");
+	#endif
 	}
+
 
 	void OpenGLContext::SwapBuffers() {
 		glfwSwapBuffers(m_WindowHandle);

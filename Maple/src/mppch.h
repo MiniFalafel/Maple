@@ -14,7 +14,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "Maple/Log.h"
+#include "Maple/Core/Log.h"
 
 #ifdef MP_PLATFORM_WINDOWS
 	#include <Windows.h>

@@ -71,7 +71,6 @@ project "Maple"
 		systemversion "latest"
 		
 		defines {
-			"MP_PLATFORM_WINDOWS",
 			"MP_BUILD_DLL",
 			"GLFW_INCLUDE_NONE"
 		}
