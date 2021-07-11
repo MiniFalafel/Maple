@@ -29,7 +29,7 @@ void Sandbox2D::OnUpdate(Maple::Timestep ts) {
 	{
 		Maple::Renderer2D::DrawQuad(m_SquarePosition, m_SquareRotation, m_SquareSize, m_SquareColor);
 		Maple::Renderer2D::DrawQuad({ -0.25f, 0.25f }, 45.0f, { 0.75f, 0.5f }, { 0.2f, 0.7f, 0.3f, 1.0f });
-		Maple::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, 0.0f, { 10.0f, 10.0f }, m_CheckerTex);
+		Maple::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, 0.0f, { 10.0f, 10.0f }, m_CheckerTex, 10.0f);
 	}
 	Maple::Renderer2D::EndScene();
 

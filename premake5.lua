@@ -119,10 +119,6 @@ project "Sandbox"
 	filter "system:windows"
 		systemversion "latest"
 		
-		defines {
-			"MP_PLATFORM_WINDOWS"
-		}
-		
 	filter "configurations:Debug"
 		defines "MP_DEBUG"
 		runtime "Debug"
