@@ -23,7 +23,11 @@ private:
 	Maple::Ref<Maple::VertexArray> m_SquareVAO;
 	Maple::Ref<Maple::Shader> m_FlatColorShader;
 
-	// ImGui Controllable Color
+	// ImGui Controllable Variables
 	glm::vec4 m_SquareColor = glm::vec4(0.8f, 0.2f, 0.3f, 1.0f);
+	glm::vec2 m_SquarePosition = glm::vec2(0.0f);
+	glm::vec2 m_SquareSize = glm::vec2(1.0f);
+
+	float m_SquareRotation = 0.0f;
 
 };

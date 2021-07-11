@@ -150,39 +150,65 @@ namespace Maple {
 		glUseProgram(0);
 	}
 
-	// Uniforms
+	// Uniform functions
+	// Set functions
 	// Matrices
-	void OpenGLShader::setMat3(const std::string& name, const glm::mat3& value) const {
+	void OpenGLShader::setMat3(const std::string& name, const glm::mat3& value) {
+		uploadMat3(name, value);
+	}
+	void OpenGLShader::setMat4(const std::string& name, const glm::mat4& value) {
+		uploadMat4(name, value);
+	}
+	// Float vectors
+	void OpenGLShader::setVec2(const std::string& name, const glm::vec2& value) {
+		uploadVec2(name, value);
+	}
+	void OpenGLShader::setVec3(const std::string& name, const glm::vec3& value) {
+		uploadVec3(name, value);
+	}
+	void OpenGLShader::setVec4(const std::string& name, const glm::vec4& value) {
+		uploadVec4(name, value);
+	}
+	// Single value types
+	void OpenGLShader::setFloat(const std::string& name, const float& value) {
+		uploadFloat(name, value);
+	}
+	void OpenGLShader::setInt(const std::string& name, const int& value) {
+		uploadInt(name, value);
+	}
+	void OpenGLShader::setBool(const std::string& name, const bool& value) {
+		uploadInt(name, value);
+	}
+
+	// Upload functions
+	// Matrices
+	void OpenGLShader::uploadMat3(const std::string& name, const glm::mat3& value) const {
 		GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
 		glUniformMatrix3fv(location, 1, GL_FALSE, &value[0][0]);
 	}
-	void OpenGLShader::setMat4(const std::string& name, const glm::mat4& value) const {
+	void OpenGLShader::uploadMat4(const std::string& name, const glm::mat4& value) const {
 		GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
 		glUniformMatrix4fv(location, 1, GL_FALSE, &value[0][0]);
 	}
 	// Vectors
-	void OpenGLShader::setVec2(const std::string& name, const glm::vec2& value) const {
+	void OpenGLShader::uploadVec2(const std::string& name, const glm::vec2& value) const {
 		GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
 		glUniform2f(location, value[0], value[1]);
 	}
-	void OpenGLShader::setVec3(const std::string& name, const glm::vec3& value) const {
+	void OpenGLShader::uploadVec3(const std::string& name, const glm::vec3& value) const {
 		GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
 		glUniform3f(location, value[0], value[1], value[2]);
 	}
-	void OpenGLShader::setVec4(const std::string& name, const glm::vec4& value) const {
+	void OpenGLShader::uploadVec4(const std::string& name, const glm::vec4& value) const {
 		GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
 		glUniform4f(location, value[0], value[1], value[2], value[3]);
 	}
 	// Float, Int, and Bool
-	void OpenGLShader::setFloat(const std::string& name, const float& value) const {
+	void OpenGLShader::uploadFloat(const std::string& name, const float& value) const {
 		GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
 		glUniform1f(location, value);
 	}
-	void OpenGLShader::setInt(const std::string& name, const int& value) const {
-		GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
-		glUniform1i(location, value);
-	}
-	void OpenGLShader::setBool(const std::string& name, const bool& value) const {
+	void OpenGLShader::uploadInt(const std::string& name, const int& value) const {
 		GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
 		glUniform1i(location, value);
 	}

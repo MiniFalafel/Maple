@@ -71,8 +71,8 @@ void main() {
 		m_AwesomeFaceTex = Maple::Texture2D::Create("assets/textures/awesomeface.png");
 
 		// Set Texture bindings
-		std::dynamic_pointer_cast<Maple::OpenGLShader>(TextureShader)->Bind();
-		std::dynamic_pointer_cast<Maple::OpenGLShader>(TextureShader)->setInt("uTexImage", 0);
+		TextureShader->Bind();
+		TextureShader->setInt("uTexImage", 0);
 	}
 
 	void OnUpdate(Maple::Timestep ts) override {
@@ -88,8 +88,8 @@ void main() {
 		{
 			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
-			std::dynamic_pointer_cast<Maple::OpenGLShader>(m_FlatColorShader)->Bind();
-			std::dynamic_pointer_cast<Maple::OpenGLShader>(m_FlatColorShader)->setVec3("uColor", m_SquareColor);
+			m_FlatColorShader->Bind();
+			m_FlatColorShader->setVec3("uColor", m_SquareColor);
 
 			for (int y = -10; y < 10; y++) {
 				for (int x = -10; x < 10; x++) {

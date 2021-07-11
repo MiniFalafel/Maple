@@ -1,8 +1,6 @@
 #include "mppch.h"
 #include "Renderer2D.h"
 
-#include "Platform/OpenGL/OpenGLShader.h"
-
 namespace Maple {
 
 	struct Renderer2DStorage {
@@ -48,27 +46,30 @@ namespace Maple {
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {
-		std::dynamic_pointer_cast<OpenGLShader>(s_Data->Shader)->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(s_Data->Shader)->setMat4("uViewProjectionMatrix", camera.GetViewProjectionMatrix());
-		std::dynamic_pointer_cast<OpenGLShader>(s_Data->Shader)->setMat4("uModelMatrix", glm::mat4(1.0f));
+		s_Data->Shader->Bind();
+		s_Data->Shader->setMat4("uViewProjectionMatrix", camera.GetViewProjectionMatrix());
 	}
 
 	void Renderer2D::EndScene() {
 		// Nothing for now
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color) {
+	void Renderer2D::DrawQuad(const glm::vec3& position, const float& rotation, const glm::vec2& size, const glm::vec4& color) {
+		glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), position) *
+			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)) *
+			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		std::dynamic_pointer_cast<OpenGLShader>(s_Data->Shader)->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(s_Data->Shader)->setVec4("uColor", color);
+		s_Data->Shader->Bind();
+		s_Data->Shader->setMat4("uModelMatrix", modelMatrix);
+		s_Data->Shader->setVec4("uColor", color);
 
 		s_Data->vertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->vertexArray);
 
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color) {
-		DrawQuad({position.x, position.y, 0.0f}, size, color);
+	void Renderer2D::DrawQuad(const glm::vec2& position, const float& rotation, const glm::vec2& size, const glm::vec4& color) {
+		DrawQuad({position.x, position.y, 0.0f}, rotation, size, color);
 	}
 
 }
