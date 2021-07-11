@@ -12,11 +12,10 @@ namespace Maple {
 		~OrthographicCamera();
 
 		void UpdateProjectionMatrix(float left, float right, float bottom, float top);
-		void UpdateViewMatrix();
 
-		inline const glm::mat4& GetProjectionMatrix() { return m_Projection; }
-		inline const glm::mat4& GetViewMatrix() { return m_View; }
-		inline const glm::mat4& GetViewProjectionMatrix() { return m_ViewProjectionMatrix; }
+		const glm::mat4& GetProjectionMatrix() const { return m_Projection; }
+		const glm::mat4& GetViewMatrix() const { return m_View; }
+		const glm::mat4& GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
 
 		const glm::vec3& GetPosition() const { return m_Position; }
 		void SetPosition(const glm::vec3& position) { m_Position = position; UpdateViewMatrix(); }
@@ -32,6 +31,9 @@ namespace Maple {
 		void UpdateVectors();
 
 	private:
+
+		void UpdateViewMatrix();
+
 		glm::vec3 m_Position = glm::vec3(0.0f);
 		float m_Rotation = 0.0f;
 

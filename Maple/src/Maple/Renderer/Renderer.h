@@ -1,7 +1,7 @@
 #pragma once
 
-#include "RenderCommand.h"
 #include "OrthographicCamera.h"
+#include "RenderCommand.h"
 #include "Shader.h"
 
 namespace Maple {

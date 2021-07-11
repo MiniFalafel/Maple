@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Maple.h>
+#include <Maple/Renderer/Renderer2D.h>
 
 class Sandbox2D : public Maple::Layer {
 
