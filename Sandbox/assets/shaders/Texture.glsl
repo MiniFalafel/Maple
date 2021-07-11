@@ -25,5 +25,5 @@ uniform sampler2D uTexImage;
 in vec2 TexCoords;
 
 void main() {
-	FragColor = texture(uTexImage, TexCoords);
+	FragColor = texture(uTexImage, TexCoords * 10.0f);
 }

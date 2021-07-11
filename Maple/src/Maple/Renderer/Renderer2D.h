@@ -1,10 +1,8 @@
 #pragma once
 
-#include "Maple/Renderer/Shader.h"
-#include "Maple/Renderer/VertexArray.h"
 #include "Maple/Renderer/OrthographicCamera.h"
 
-#include "Maple/Renderer/RenderCommand.h"
+#include "Maple/Renderer/Texture.h"
 
 namespace Maple {
 
@@ -20,6 +18,8 @@ namespace Maple {
 		// Primitives
 		static void DrawQuad(const glm::vec3& position, const float& rotation, const glm::vec2& size, const glm::vec4& color);
 		static void DrawQuad(const glm::vec2& position, const float& rotation, const glm::vec2& size, const glm::vec4& color);
+		static void DrawQuad(const glm::vec3& position, const float& rotation, const glm::vec2& size, const Ref<Texture2D>& texture);
+		static void DrawQuad(const glm::vec2& position, const float& rotation, const glm::vec2& size, const Ref<Texture2D>& texture);
 
 	};
 

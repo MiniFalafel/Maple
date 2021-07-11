@@ -35,15 +35,17 @@ namespace Maple {
 		}
 		MP_CORE_ASSERT(internalFormat & format, "Image format not supported!");
 
-		// Now setup the OpenGL texture implementation
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID);
 		glTextureStorage2D(m_TextureID, 1, internalFormat, m_Width, m_Height);
-		// Texture parameters
+		
 		glTextureParameteri(m_TextureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTextureParameteri(m_TextureID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		// Upload the data
+
+		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		
 		glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Width, m_Height, format, GL_UNSIGNED_BYTE, data);
-		// Free the data
+		
 		stbi_image_free(data);
 	}
 
