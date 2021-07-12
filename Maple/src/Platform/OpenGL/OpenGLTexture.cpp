@@ -6,6 +6,8 @@
 namespace Maple {
 	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height) 
 		: m_Width(width), m_Height(height) {
+		MP_PROFILE_FUNCTION();
+
 		m_InternalFormat = GL_RGBA8;
 		m_Format = GL_RGBA;
 
@@ -21,10 +23,15 @@ namespace Maple {
 
 	OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
 		: m_Path(path) {
+		MP_PROFILE_FUNCTION();
 
 		int width, height, channels;
 		stbi_set_flip_vertically_on_load(1);
-		stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+		stbi_uc* data = nullptr;
+		{
+			MP_PROFILE_SCOPE("stbi_load OpenGLTexture2D::OpenGLTexture2D(const std::string&)");
+			data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+		}
 		MP_CORE_ASSERT(data, "Texture failed to load!");
 		m_Width = width; m_Height = height;
 
@@ -64,16 +71,22 @@ namespace Maple {
 	}
 
 	OpenGLTexture2D::~OpenGLTexture2D()	{
+		MP_PROFILE_FUNCTION();
+
 		glDeleteTextures(1, &m_TextureID);
 	}
 
 	void OpenGLTexture2D::SetData(void* data, uint32_t size) {
+		MP_PROFILE_FUNCTION();
+
 		uint32_t bytesPerPixel = m_Format == GL_RGBA ? 4 : m_Format == GL_RG ? 2 : m_Format == GL_RED ? 1 : 3;
 		MP_CORE_ASSERT(size == m_Width * m_Height * bytesPerPixel, "Parameter 'size' does not match data's actual size!");
 		glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Width, m_Height, m_Format, GL_UNSIGNED_BYTE, data);
 	}
 
 	void OpenGLTexture2D::Bind(uint32_t slot) const {
+		MP_PROFILE_FUNCTION();
+
 		glBindTextureUnit(slot, m_TextureID);
 	}
 

@@ -14,6 +14,8 @@ namespace Maple {
 	}
 
 	void OrthographicCameraController::OnUpdate(Timestep ts) {
+		MP_PROFILE_FUNCTION();
+
 		if (Input::IsKeyPressed(MP_KEY_A))
 			m_Camera.AddToPosition(-m_CameraTranslationSpeed * ts * m_Camera.GetRightVector());
 		if (Input::IsKeyPressed(MP_KEY_D))
@@ -34,12 +36,16 @@ namespace Maple {
 	}
 
 	void OrthographicCameraController::OnEvent(Event& e) {
+		MP_PROFILE_FUNCTION();
+
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<MouseScrolledEvent>(MP_BIND_EVENT_FN(OrthographicCameraController::OnMouseScrolled));
 		dispatcher.Dispatch<WindowResizeEvent>(MP_BIND_EVENT_FN(OrthographicCameraController::OnWindowResize));
 	}
 
 	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e) {
+		MP_PROFILE_FUNCTION();
+
 		m_ZoomLevel -= e.GetYOffset() * 0.25f;
 		m_ZoomLevel = std::max(m_ZoomLevel, 0.25f);
 		m_Camera.UpdateProjectionMatrix(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
@@ -47,6 +53,8 @@ namespace Maple {
 	}
 
 	bool OrthographicCameraController::OnWindowResize(WindowResizeEvent& e) {
+		MP_PROFILE_FUNCTION();
+
 		m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
 		m_Camera.UpdateProjectionMatrix(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 		return false;

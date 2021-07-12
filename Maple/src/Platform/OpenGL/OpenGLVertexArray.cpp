@@ -25,22 +25,31 @@ namespace Maple {
 	}
 
 	OpenGLVertexArray::OpenGLVertexArray() {
+		MP_PROFILE_FUNCTION();
+
 		glCreateVertexArrays(1, &m_VertexArrayID);
 	}
 
 	OpenGLVertexArray::~OpenGLVertexArray() {
+		MP_PROFILE_FUNCTION();
+
 		glDeleteVertexArrays(1, &m_VertexArrayID);
 	}
 
 	void OpenGLVertexArray::Bind() const {
+		MP_PROFILE_FUNCTION();
+
 		glBindVertexArray(m_VertexArrayID);
 	}
 
 	void OpenGLVertexArray::Unbind() const {
+		MP_PROFILE_FUNCTION();
+
 		glBindVertexArray(0);
 	}
 
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& VBO) {
+		MP_PROFILE_FUNCTION();
 
 		MP_CORE_ASSERT(VBO->GetLayout().GetElements().size(), "Vertex buffer layout is empty!");
 
@@ -65,6 +74,8 @@ namespace Maple {
 	}
 
 	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& EBO) {
+		MP_PROFILE_FUNCTION();
+
 		glBindVertexArray(m_VertexArrayID);
 		EBO->Bind();
 

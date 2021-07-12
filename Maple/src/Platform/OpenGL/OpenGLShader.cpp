@@ -15,6 +15,7 @@ namespace Maple {
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& filePath) {
+		MP_PROFILE_FUNCTION();
 
 		std::string source = ReadFile(filePath);
 		auto shaderSources = Preprocess(source);
@@ -30,6 +31,8 @@ namespace Maple {
 	
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 		: m_Name(name) {
+		MP_PROFILE_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
 		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
@@ -37,10 +40,14 @@ namespace Maple {
 	}
 
 	OpenGLShader::~OpenGLShader() {
+		MP_PROFILE_FUNCTION();
+
 		glDeleteProgram(m_ProgramID);
 	}
 
 	std::string OpenGLShader::ReadFile(const std::string& filePath) {
+		MP_PROFILE_FUNCTION();
+
 		std::string result;
 		std::ifstream in(filePath, std::ios::in | std::ios::binary);
 		if (in) {
@@ -58,6 +65,8 @@ namespace Maple {
 	}
 
 	std::unordered_map<GLenum, std::string> OpenGLShader::Preprocess(const std::string source) {
+		MP_PROFILE_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> shaderSources;
 
 		const char* typeToken = "#type";
@@ -79,6 +88,8 @@ namespace Maple {
 	}
 
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources) {
+		MP_PROFILE_FUNCTION();
+
 		GLuint program = glCreateProgram();
 		MP_CORE_ASSERT(shaderSources.size() <= 3, "There is a maximum of 3 shaders allowed");
 		std::array<GLenum, 3> glShaderIDs;
@@ -143,10 +154,14 @@ namespace Maple {
 	}
 
 	void OpenGLShader::Bind() const {
+		MP_PROFILE_FUNCTION();
+
 		glUseProgram(m_ProgramID);
 	}
 	
 	void OpenGLShader::Unbind() const {
+		MP_PROFILE_FUNCTION();
+
 		glUseProgram(0);
 	}
 
@@ -154,29 +169,37 @@ namespace Maple {
 	// Set functions
 	// Matrices
 	void OpenGLShader::setMat3(const std::string& name, const glm::mat3& value) {
+		MP_PROFILE_FUNCTION();
 		uploadMat3(name, value);
 	}
 	void OpenGLShader::setMat4(const std::string& name, const glm::mat4& value) {
+		MP_PROFILE_FUNCTION();
 		uploadMat4(name, value);
 	}
 	// Float vectors
 	void OpenGLShader::setVec2(const std::string& name, const glm::vec2& value) {
+		MP_PROFILE_FUNCTION();
 		uploadVec2(name, value);
 	}
 	void OpenGLShader::setVec3(const std::string& name, const glm::vec3& value) {
+		MP_PROFILE_FUNCTION();
 		uploadVec3(name, value);
 	}
 	void OpenGLShader::setVec4(const std::string& name, const glm::vec4& value) {
+		MP_PROFILE_FUNCTION();
 		uploadVec4(name, value);
 	}
 	// Single value types
 	void OpenGLShader::setFloat(const std::string& name, const float& value) {
+		MP_PROFILE_FUNCTION();
 		uploadFloat(name, value);
 	}
 	void OpenGLShader::setInt(const std::string& name, const int& value) {
+		MP_PROFILE_FUNCTION();
 		uploadInt(name, value);
 	}
 	void OpenGLShader::setBool(const std::string& name, const bool& value) {
+		MP_PROFILE_FUNCTION();
 		uploadInt(name, value);
 	}
 

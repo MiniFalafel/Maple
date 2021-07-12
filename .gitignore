@@ -1,4 +1,4 @@
-# Binaries n' stuff
+# Binaries
 **/bin/
 bin-int/
 
@@ -8,3 +8,6 @@ bin-int/
 **.vcxproj
 **.vcxproj.filters
 **.vcxproj.user
+
+# Profiling
+**.json

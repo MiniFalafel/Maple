@@ -14,6 +14,8 @@ namespace Maple {
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application() {
+		MP_PROFILE_FUNCTION();
+
 		// Set s_Instance to this for external acces
 		MP_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
@@ -28,18 +30,28 @@ namespace Maple {
 	}
 
 	Application::~Application() {
+		MP_PROFILE_FUNCTION();
 
+		Renderer::Shutdown();
 	}
 
 	// Layer and Overlay Handling Wrappers
 	void Application::PushLayer(Layer* layer) {
+		MP_PROFILE_FUNCTION();
+
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 	void Application::PushOverlay(Layer* overlay) {
+		MP_PROFILE_FUNCTION();
+
 		m_LayerStack.PushOverlay(overlay);
+		overlay->OnAttach();
 	}
 
 	void Application::OnEvent(Event& e) {
+		MP_PROFILE_FUNCTION();
+
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(MP_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(MP_BIND_EVENT_FN(Application::OnWindowResize));
@@ -53,20 +65,31 @@ namespace Maple {
 	}
 
 	void Application::Run() {
+		MP_PROFILE_FUNCTION();
+
 		while (m_Running) {
+			MP_PROFILE_SCOPE("RunLoop Frame");
 
 			float time = (float)glfwGetTime(); // Platform::GetTime();
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
 			if (!m_Minimized) {
-				for (Layer* layer : m_LayerStack)
-					layer->OnUpdate(timestep);
+				{
+					MP_PROFILE_SCOPE("LayerStack OnUpdate");
+					
+					for (Layer* layer : m_LayerStack)
+						layer->OnUpdate(timestep);
+				}
 			}
 
 			m_ImGuiLayer->Begin();
-			for (Layer* layer : m_LayerStack)
-				layer->OnImGuiRender();
+			{
+				MP_PROFILE_SCOPE("LayerStack OnInGuiRender");
+
+				for (Layer* layer : m_LayerStack)
+					layer->OnImGuiRender();
+			}
 			m_ImGuiLayer->End();
 
 			m_Window->OnUpdate();
@@ -79,6 +102,8 @@ namespace Maple {
 	}
 
 	bool Application::OnWindowResize(WindowResizeEvent& e) {
+		MP_PROFILE_FUNCTION();
+
 		if (e.GetWidth() == 0 || e.GetHeight() == 0) {
 			m_Minimized = true;
 			return false;

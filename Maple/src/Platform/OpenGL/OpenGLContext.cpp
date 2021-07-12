@@ -11,6 +11,8 @@ namespace Maple {
 	}
 
 	void OpenGLContext::Init() {
+		MP_PROFILE_FUNCTION();
+
 		glfwMakeContextCurrent(m_WindowHandle);
 		int success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		MP_CORE_ASSERT(success, "glad failed to initialize!");
@@ -31,6 +33,8 @@ namespace Maple {
 
 
 	void OpenGLContext::SwapBuffers() {
+		MP_PROFILE_FUNCTION();
+
 		glfwSwapBuffers(m_WindowHandle);
 	}
 

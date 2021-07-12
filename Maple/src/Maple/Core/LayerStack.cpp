@@ -6,20 +6,20 @@ namespace Maple {
 	LayerStack::LayerStack() {}
 	// Destructor
 	LayerStack::~LayerStack() {
-		for (Layer* layer : m_Layers)
+		for (Layer* layer : m_Layers) {
+			layer->OnDetach();
 			delete layer;
+		}
 	}
 
 	// Push Layer
 	void LayerStack::PushLayer(Layer* layer) {
 		m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex, layer);
 		m_LayerInsertIndex++;
-		layer->OnAttach();
 	}
 	// Push Overlay
 	void LayerStack::PushOverlay(Layer* overlay) {
 		m_Layers.emplace_back(overlay);
-		overlay->OnAttach();
 	}
 	// Pop Layer
 	void LayerStack::PopLayer(Layer* layer) {

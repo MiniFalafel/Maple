@@ -19,6 +19,7 @@ namespace Maple {
 	static Renderer2DStorage* s_Data;
 
 	void Renderer2D::Init() {
+		MP_PROFILE_FUNCTION();
 
 		s_Data = new Renderer2DStorage();
 		s_Data->vertexArray = VertexArray::Create();
@@ -57,20 +58,26 @@ namespace Maple {
 	}
 
 	void Renderer2D::Shutdown() {
+		MP_PROFILE_FUNCTION();
+
 		delete s_Data;
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {
+		MP_PROFILE_FUNCTION();
 
 		s_Data->Shader->Bind();
 		s_Data->Shader->setMat4("uViewProjectionMatrix", camera.GetViewProjectionMatrix());
 	}
 
 	void Renderer2D::EndScene() {
+		MP_PROFILE_FUNCTION();
+
 		// Nothing for now
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const float& rotation, const glm::vec2& size, const glm::vec4& color) {
+		MP_PROFILE_FUNCTION();
 		
 		glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), position) *
 			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)) *
@@ -85,10 +92,13 @@ namespace Maple {
 
 	}
 	void Renderer2D::DrawQuad(const glm::vec2& position, const float& rotation, const glm::vec2& size, const glm::vec4& color) {
+		MP_PROFILE_FUNCTION();
+
 		DrawQuad({position.x, position.y, 0.0f}, rotation, size, color);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const float& rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tintColor) {
+		MP_PROFILE_FUNCTION();
 		
 		glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), position) *
 			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)) *
@@ -107,6 +117,7 @@ namespace Maple {
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const float& rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const float& textureScale, const glm::vec4& tintColor) {
+		MP_PROFILE_FUNCTION();
 
 		glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), position) *
 			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)) *

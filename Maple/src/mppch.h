@@ -16,6 +16,8 @@
 
 #include "Maple/Core/Log.h"
 
+#include "Maple/Debug/Instrumentor.h"
+
 #ifdef MP_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif

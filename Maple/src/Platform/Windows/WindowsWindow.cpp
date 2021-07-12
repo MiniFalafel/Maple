@@ -9,7 +9,7 @@
 
 namespace Maple {
 	
-	static bool s_GLFWInitialized = false;
+	static int s_GLFWWindowCount = 0;
 
 	static void GLFWErrorCallback(int error, const char* description) {
 		MP_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
@@ -20,14 +20,20 @@ namespace Maple {
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProperties& props) {
+		MP_PROFILE_FUNCTION();
+		
 		Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow() {
+		MP_PROFILE_FUNCTION();
+
 		Shutdown();
 	}
 
 	void WindowsWindow::Init(const WindowProperties& props) {
+		MP_PROFILE_FUNCTION();
+
 		// Fill m_Data with data from the window properties
 		m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
@@ -37,18 +43,22 @@ namespace Maple {
 		MP_CORE_INFO("Creating Window {0}, ({1}, {2})", m_Data.Title, m_Data.Width, m_Data.Height);
 
 
-		// GLFW initialization
-		if (!s_GLFWInitialized) {
+		// GLFW initialization (only if no windows have been created yet)
+		if (s_GLFWWindowCount == 0) {
+			MP_PROFILE_SCOPE("glfwInit");
 			// Initialize GLFW and log if it fails to initialize
 			int success = glfwInit();
 			MP_CORE_ASSERT(success, "GLFW Failed to initialize!");
 			// Set error callback
 			glfwSetErrorCallback(GLFWErrorCallback);
-			// Set s_GLFWInitialized to true
-			s_GLFWInitialized = true;
 		}
 
-		m_Window = glfwCreateWindow((int)m_Data.Width, (int)m_Data.Height, m_Data.Title.c_str(), NULL, NULL);
+		{
+			MP_PROFILE_SCOPE("glfwCreateWindow");
+			
+			m_Window = glfwCreateWindow((int)m_Data.Width, (int)m_Data.Height, m_Data.Title.c_str(), NULL, NULL);
+			s_GLFWWindowCount++;
+		}
 
 		m_Context = new OpenGLContext(m_Window);
 		m_Context->Init();
@@ -154,17 +164,23 @@ namespace Maple {
 	}
 
 	void WindowsWindow::Shutdown() {
+		MP_PROFILE_FUNCTION();
+
 		// Destroy the GLFW window
 		glfwDestroyWindow(m_Window);
 	}
 
 	void WindowsWindow::OnUpdate() {
+		MP_PROFILE_FUNCTION();
+
 		// Poll Events and swap buffers
 		glfwPollEvents();
 		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::setVsync(bool enabled) {
+		MP_PROFILE_FUNCTION();
+
 		if (enabled)
 			glfwSwapInterval(1);
 		else

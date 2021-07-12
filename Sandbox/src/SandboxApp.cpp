@@ -1,7 +1,7 @@
 #include <Maple.h>
 #include <Maple/Core/EntryPoint.h>
 
-#include "imgui/imgui.h"
+#include <imgui/imgui.h>
 
 #include "Sandbox2D.h"
 
@@ -19,8 +19,7 @@ public:
 			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
 			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
-		Maple::Ref<Maple::VertexBuffer> squareVBO;
-		squareVBO = Maple::VertexBuffer::Create(squareVertices, sizeof(squareVertices));
+		Maple::Ref<Maple::VertexBuffer> squareVBO = Maple::VertexBuffer::Create(squareVertices, sizeof(squareVertices));
 		squareVBO->SetLayout({
 			{ Maple::ShaderDataType::fVec3, "aPos" },
 			{ Maple::ShaderDataType::fVec2, "aTexCoords" }
@@ -31,8 +30,7 @@ public:
 			0, 1, 2, // Bottom tri
 			0, 2, 3  // Top tri
 		};
-		Maple::Ref<Maple::IndexBuffer> squareEBO;
-		squareEBO = Maple::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
+		Maple::Ref<Maple::IndexBuffer> squareEBO = Maple::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		m_SquareVAO->SetIndexBuffer(squareEBO);
 
 		// ************************************
