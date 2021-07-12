@@ -1,5 +1,16 @@
 # Maple
-Maple Engine
+Maple is a game engine that has, for the most part, been constructed by following the game engine tutorial 
+series by TheCherno. It is meant to help me get a better grasp on how someone would work on a game engine 
+to be used at least somewhat seriously while making it usable and available to other people.
+
+Once I feel that I have learned a sufficient amount to take it and do my own thing, I will start working 
+seriously on an existing, private repository called "Mellow". Mellow will be my more serious game engine 
+where I will not follow any tutorials, but use the knowlege and experience I gain from following 
+TheCherno's tutorials.
+
+Note that I have attempted to make a game engine before, but it wasn't organized in a way that I felt was 
+particularly usable or sensible, so I turned to another person's implementation to try and learn. It is in 
+a repository called "Falafel-Graphics-Engine".
 
 # System Requirements
 Maple currently only supports Windows and OpenGL, but I plan on expanding to other platforms in the future.
