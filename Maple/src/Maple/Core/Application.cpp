@@ -57,8 +57,8 @@ namespace Maple {
 		dispatcher.Dispatch<WindowResizeEvent>(MP_BIND_EVENT_FN(Application::OnWindowResize));
 
 		// Loop through each layer to see if it can handle the event
-		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); ) {
-			(*--it)->OnEvent(e);
+		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); it++) {
+			(*it)->OnEvent(e);
 			if (e.Handled)
 				break;
 		}

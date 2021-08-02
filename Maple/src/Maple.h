@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef MAPLE_H
+#define MAPLE_H
+
 // Intended for users in applications
 
 #include "Maple/Core/Application.h"
@@ -26,3 +29,5 @@
 #include "Maple/Renderer/VertexArray.h"
 
 #include "Maple/Renderer/OrthographicCamera.h"
+
+#endif
