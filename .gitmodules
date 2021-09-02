@@ -3,7 +3,7 @@
 	url = https://github.com/gabime/spdlog
 [submodule "Maple/vendor/GLFW"]
 	path = Maple/vendor/GLFW
-	url = https://github.com/TheCherno/GLFW
+	url = https://github.com/SandyFalafel/glfw
 [submodule "Maple/vendor/imgui"]
 	path = Maple/vendor/imgui
 	url = https://github.com/SandyFalafel/imgui
